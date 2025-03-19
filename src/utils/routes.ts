@@ -1,0 +1,1 @@
+export const vendors = '/api/v1/vendors';
