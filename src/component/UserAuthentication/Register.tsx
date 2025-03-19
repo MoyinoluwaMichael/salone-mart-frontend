@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
-import { FacebookIcon, GithubIcon } from 'lucide-react';
 import Input from '../ui/userAuth/Input';
 import  Button from '../ui/userAuth/Button';
+import { FacebookIcon, GithubIcon } from 'lucide-react';
 
-
-interface LoginProps {
-  onLogin: () => void
+interface RegisterProps {
   onNavigate: (page: string) => void
 }
 
- const  LoginForm = ({ onLogin, onNavigate }: LoginProps)=> {
+ const  Register = ({ onNavigate }: RegisterProps) => {
   const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
     email: '',
+    phone: '',
     password: '',
+    confirmPassword: '',
   })
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -23,16 +25,36 @@ interface LoginProps {
   }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real app, you would validate and authenticate here
-    onLogin()
+    // In a real app, you would validate and register the user here
+    onNavigate('login')
   }
   return (
     <div className="w-full max-w-md mx-auto px-4 py-8">
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Sign In
+          Create Account
         </h2>
         <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="First Name"
+              id="firstName"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+              placeholder="John"
+            />
+            <Input
+              label="Last Name"
+              id="lastName"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+              placeholder="Doe"
+            />
+          </div>
           <Input
             label="Email"
             type="email"
@@ -44,6 +66,15 @@ interface LoginProps {
             placeholder="your@email.com"
           />
           <Input
+            label="Phone Number"
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="+1 (555) 123-4567"
+          />
+          <Input
             label="Password"
             type="password"
             id="password"
@@ -53,29 +84,41 @@ interface LoginProps {
             required
             placeholder="••••••••"
           />
-          <div className="flex justify-between items-center mb-6">
+          <Input
+            label="Confirm Password"
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+            placeholder="••••••••"
+          />
+          <div className="mb-6">
             <div className="flex items-center">
               <input
-                id="remember"
+                id="terms"
                 type="checkbox"
                 className="h-4 w-4 text-[#FF9900] focus:ring-[#FF9900] border-gray-300 rounded"
+                required
               />
               <label
-                htmlFor="remember"
+                htmlFor="terms"
                 className="ml-2 block text-sm text-gray-700"
               >
-                Remember me
+                I agree to the{' '}
+                <a href="#" className="text-[#FF9900] hover:underline">
+                  Terms of Service
+                </a>{' '}
+                and{' '}
+                <a href="#" className="text-[#FF9900] hover:underline">
+                  Privacy Policy
+                </a>
               </label>
             </div>
-            <button
-              type="button"
-              className="text-sm text-[#FF9900] hover:underline"
-            >
-              Forgot password?
-            </button>
           </div>
           <Button type="submit" variant="primary" fullWidth>
-            Sign In
+            Create Account
           </Button>
         </form>
         <div className="mt-6">
@@ -85,7 +128,7 @@ interface LoginProps {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-white text-gray-500">
-                Or continue with
+                Or sign up with
               </span>
             </div>
           </div>
@@ -103,30 +146,18 @@ interface LoginProps {
         </div>
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
+            Already have an account?{' '}
             <button
-              onClick={() => onNavigate('register')}
+              onClick={() => onNavigate('login')}
               className="text-[#FF9900] hover:underline font-medium"
             >
-              Sign up
-            </button>
-          </p>
-          <p className="text-sm text-gray-600 mt-2">
-            Are you a seller?{' '}
-            <button
-              onClick={() => onNavigate('sellerRegister')}
-              className="text-[#FF9900] hover:underline font-medium"
-            >
-              Register as seller
+              Sign in
             </button>
           </p>
         </div>
       </div>
     </div>
   )
-};
+}
 
-export default LoginForm;
-
-
-//  403 or 401 = Expired session
+export default Register;
