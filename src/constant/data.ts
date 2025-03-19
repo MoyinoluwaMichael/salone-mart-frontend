@@ -1,34 +1,11 @@
-import images from "./images";
-
-export 
-interface categorySectionDataType { 
+interface ApplicationConstants {
     name: string;
-    icon: string;
+    email: string;
+    phone: string;
 }
 
-export const categories: categorySectionDataType[] = [
-    {
-      name: 'Fashion',
-      icon: images.landingPage.clothingcategory,
-    },
-    {
-      name: 'Electronics',
-      icon: images.landingPage.electroniccategory,
-    },
-    {
-      name: 'Home & Office',
-      icon: images.landingPage.homeandofficecategory,
-    },
-    {
-      name: 'Phones & Tablets',
-      icon: images.landingPage.computingcategory,
-    },
-    {
-      name: 'Computing',
-      icon: images.landingPage.supermarketcategory,
-    },
-    {
-      name: 'Supermarket',
-      icon: images.landingPage.phoneandtabletcategory,
-    },
-  ];
+export const applicationConstants: ApplicationConstants = {
+    name: "Salone Mart",
+    email: "info@salonemart.com",
+    phone: "+232 76 123 456wdedefe"
+};
