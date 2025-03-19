@@ -8,8 +8,7 @@ import {
   MenuIcon,
   ChevronDownIcon,
 } from 'lucide-react';
-import { fetchProductCategories } from '../../service/ProductService';
-import { ProductCategory } from '../../service/ProductService';
+import { fetchProductCategories, ProductCategory } from "../../service/productService.ts";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,7 +18,7 @@ const Header = () => {
     const fetchCategories = async () => {
       try {
         const response = await fetchProductCategories();
-        setCategories(response.data);
+        setCategories(response.productCategories);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -120,7 +119,7 @@ const Header = () => {
                             href="#"
                             className="block px-4 py-2 hover:bg-gray-100"
                         >
-                          {category.name}
+                          {category.description}
                         </a>
                     ))}
                   </div>
@@ -133,7 +132,7 @@ const Header = () => {
                       href="#"
                       className="whitespace-nowrap px-4 text-gray-700 hover:text-orange-500 text-sm font-medium"
                   >
-                    {category.name}
+                    {category.description}
                   </a>
               ))}
             </nav>

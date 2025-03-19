@@ -1,8 +1,24 @@
-import { categories } from "@/constant/data";
+import {useEffect, useState} from "react";
+import {fetchProductCategories, ProductCategory} from "../../service/productService.ts";
 
 
 
 const CategorySection = () => {
+
+    const [categories, setCategories] = useState<ProductCategory[]>([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetchProductCategories();
+                setCategories(response.productCategories);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     
   return (
@@ -18,11 +34,11 @@ const CategorySection = () => {
             <div className="w-16 h-16 rounded-full overflow-hidden mb-3">
               <img
                 src={category.icon}
-                alt={category.name}
+                alt={category.description}
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="font-medium text-gray-800">{category.name}</span>
+            <span className="font-medium text-gray-800">{category.description}</span>
           </a>
         ))}
       </div>
