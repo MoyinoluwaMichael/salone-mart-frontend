@@ -1,5 +1,5 @@
 import axiosInstance from '../utils/axiosInstance';
-import images from "../constant/images.ts";
+import images from "../constant/images";
 
 export interface ProductCategory {
     id: number;
