@@ -1,9 +1,5 @@
 import axiosInstance from '../utils/axiosInstance';
-<<<<<<< HEAD
 import images from "../constant/images";
-=======
-import images from '../constant/images';
->>>>>>> 6845f648a8cc32201f2b2303227a4558a4075d3a
 
 export interface ProductCategory {
     id: number;

@@ -17,6 +17,7 @@ interface productDataType {
     rating: number;
     image: string;
     category: string;
+    discount: number;
 }
 
 export const applicationConstants: ApplicationConstants = {
@@ -35,7 +36,8 @@ export const products:productDataType[] = [
       description: 'Premium cotton t-shirt with a comfortable fit',
       rating: 4.5,
       image: images.productListing.whiteT_shirt,
-      category: 'clothing'
+      category: 'clothing',
+      discount: 25,
     },
     {
       id: 2,
@@ -44,7 +46,8 @@ export const products:productDataType[] = [
       description: 'Stylish slim-fit jeans for everyday wear',
       rating: 4.2,
       image: images.productListing.BlueDenimJeans,
-      category: 'clothing'
+      category: 'clothing',
+      discount: 15,
     },
     {
       id: 3,
@@ -53,7 +56,8 @@ export const products:productDataType[] = [
       description: 'Light and airy dress perfect for summer days',
       rating: 4.8,
       image: images.productListing.SummerFloralDress,
-      category: 'clothing'
+      category: 'clothing',
+      discount: 55,
     },
     {
       id: 4,
@@ -62,7 +66,8 @@ export const products:productDataType[] = [
       description: 'Classic leather jacket with modern details',
       rating: 4.7,
       image: images.productListing.BlackLeatherJacket,
-      category: 'clothing'
+      category: 'clothing',
+      discount: 25,
     },
     {
       id: 5,
@@ -71,7 +76,8 @@ export const products:productDataType[] = [
       description: 'Moisture-wicking hoodie for workouts and casual wear',
       rating: 4.3,
       image: images.productListing.AthleticPerformancHoodie,
-      category: 'clothing'
+      category: 'clothing',
+      discount: 20,
     },
     {
       id: 6,
@@ -80,6 +86,7 @@ export const products:productDataType[] = [
       description: 'Soft cotton plaid shirt for a relaxed look',
       rating: 4.1,
       image: images.productListing.CasualPlaidShirt,
-      category: 'clothing'
+      category: 'clothing',
+      discount: 15,
     }
   ];
