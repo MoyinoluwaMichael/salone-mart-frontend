@@ -41,7 +41,7 @@ interface InputProps {
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9900] ${error ? 'border-red-500' : 'border-gray-300'}`}
+        className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9900] ${error ? 'border-red-500' : 'border-gray-300'} text-black`}
       />
       {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
     </div>
