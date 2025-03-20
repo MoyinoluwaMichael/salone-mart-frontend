@@ -4,7 +4,6 @@ import homeandofficecategory from "../assets/landinpage/homeandofficecategory.pn
 import computingcategory from "../assets/landinpage/homeandofficecategory.png";
 import supermarketcategory from "../assets/landinpage/supermarketcategory.png";
 import phoneandtabletcategory from "../assets/landinpage/phoneandtabletcategory.png";
-import {CATEGORIES_DATA_TYPE} from "@/service/productService";
 
 
 const images = {
@@ -19,17 +18,17 @@ const images = {
 
     getIconByCategoryName: (categoryName: string) => {
         switch (categoryName) {
-            case CATEGORIES_DATA_TYPE.FASHION:
+            case "FASHION":
                 return clothingcategory;
-            case CATEGORIES_DATA_TYPE.ELECTRONICS:
+            case "ELECTRONICS":
                 return electroniccategory;
-            case CATEGORIES_DATA_TYPE.HOME_AND_OFFICE:
+            case "HOME_AND_OFFICE":
                 return homeandofficecategory;
-            case CATEGORIES_DATA_TYPE.COMPUTING:
+            case "COMPUTING":
                 return computingcategory;
-            case CATEGORIES_DATA_TYPE.SUPERMARKET:
+            case "SUPERMARKET":
                 return supermarketcategory;
-            case CATEGORIES_DATA_TYPE.PHONES_AND_TABLETS:
+            case "PHONES_AND_TABLETS":
                 return phoneandtabletcategory;
             default:
                 return '';
