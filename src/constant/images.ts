@@ -4,6 +4,12 @@ import homeandofficecategory from "../assets/landinpage/homeandofficecategory.pn
 import computingcategory from "../assets/landinpage/homeandofficecategory.png";
 import supermarketcategory from "../assets/landinpage/supermarketcategory.png";
 import phoneandtabletcategory from "../assets/landinpage/phoneandtabletcategory.png";
+import whiteT_shirt from "../assets/productlisting/whiteT_shirt.jpeg";
+import BlueDenimJeans from "../assets/productlisting/BlueDenimJeans.jpeg";
+import SummerFloralDress from "../assets/productlisting/SummerFloralDress.png";
+import BlackLeatherJacket from "../assets/productlisting/BlackLeatherJacket.jpeg";
+import AthleticPerformancHoodie from "../assets/productlisting/AthleticPerformancHoodie.jpeg";
+import CasualPlaidShirt from "../assets/productlisting/CasualPlaidShirt.jpeg";
 
 
 const images = {
@@ -14,6 +20,14 @@ const images = {
         computingcategory,
         supermarketcategory,
         phoneandtabletcategory,
+    },
+    productListing: {
+        whiteT_shirt,
+        BlueDenimJeans,
+        SummerFloralDress,
+        BlackLeatherJacket,
+        AthleticPerformancHoodie,
+        CasualPlaidShirt
     },
 
     getIconByCategoryName: (categoryName: string) => {
@@ -33,7 +47,8 @@ const images = {
             default:
                 return '';
         }
-    }
+    },
+  
 };
 
 export default images;
