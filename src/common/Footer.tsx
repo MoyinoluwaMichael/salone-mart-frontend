@@ -14,9 +14,9 @@ import {
 } from 'lucide-react'
 
 const Footer = () => {
-  const [openSection, setOpenSection] = useState(null);
+  const [openSection, setOpenSection] = useState<string | null>(null);
 
-  const toggleSection = (section) => {
+  const toggleSection = (section: string) => {
     if (openSection === section) {
       setOpenSection(null);
     } else {

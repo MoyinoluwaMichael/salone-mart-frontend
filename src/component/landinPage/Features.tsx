@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 
 const Features = () => {
-    const [hoveredIndex, setHoveredIndex] = useState(null);
+    const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     const features = [
         {
@@ -52,7 +52,7 @@ const Features = () => {
                 </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {features.map((feature, index) => (
+                    {features.map((feature, index: number) => (
                         <div
                             key={index}
                             className={`flex flex-col items-center text-center p-6 rounded-xl transition-all duration-500 transform ${

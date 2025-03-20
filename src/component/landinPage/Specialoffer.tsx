@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, Clock, ShoppingBag, TrendingUp } from 'lucide-react';
 
 const SpecialOffers = () => {
-  const [timeLeft, setTimeLeft] = useState({});
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [timeLeft, setTimeLeft] = useState<any>({});
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const offers = [
     {
@@ -45,10 +45,15 @@ const SpecialOffers = () => {
     },
   ];
 
+  // Memoize the offers array to prevent re-rendering
+  const offersEndTimes = offers
+      .map(offer => offer.endTime)
+      .filter(Boolean);
+
   // Calculate time remaining for countdown
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const timeLeftData = {};
+      const timeLeftData: any = {};
 
       offers.forEach((offer, index) => {
         if (offer.endTime) {
@@ -72,7 +77,7 @@ const SpecialOffers = () => {
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
-  }, [offers]);
+  }, [offersEndTimes.join(',')]); // Only depend on the end times
 
   return (
       <section className="py-12 px-4 relative">
