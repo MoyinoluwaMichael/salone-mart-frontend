@@ -4,6 +4,7 @@ import homeandofficecategory from "../assets/landinpage/homeandofficecategory.pn
 import computingcategory from "../assets/landinpage/homeandofficecategory.png";
 import supermarketcategory from "../assets/landinpage/supermarketcategory.png";
 import phoneandtabletcategory from "../assets/landinpage/phoneandtabletcategory.png";
+<<<<<<< HEAD
 import whiteT_shirt from "../assets/productlisting/whiteT_shirt.jpeg";
 import BlueDenimJeans from "../assets/productlisting/BlueDenimJeans.jpeg";
 import SummerFloralDress from "../assets/productlisting/SummerFloralDress.png";
@@ -11,6 +12,8 @@ import BlackLeatherJacket from "../assets/productlisting/BlackLeatherJacket.jpeg
 import AthleticPerformancHoodie from "../assets/productlisting/AthleticPerformancHoodie.jpeg";
 import CasualPlaidShirt from "../assets/productlisting/CasualPlaidShirt.jpeg";
 import {CATEGORIES_DATA_TYPE} from "../service/productService";
+=======
+>>>>>>> 6845f648a8cc32201f2b2303227a4558a4075d3a
 
 
 const images = {
@@ -33,17 +36,17 @@ const images = {
 
     getIconByCategoryName: (categoryName: string) => {
         switch (categoryName) {
-            case CATEGORIES_DATA_TYPE.FASHION:
+            case "FASHION":
                 return clothingcategory;
-            case CATEGORIES_DATA_TYPE.ELECTRONICS:
+            case "ELECTRONICS":
                 return electroniccategory;
-            case CATEGORIES_DATA_TYPE.HOME_AND_OFFICE:
+            case "HOME_AND_OFFICE":
                 return homeandofficecategory;
-            case CATEGORIES_DATA_TYPE.COMPUTING:
+            case "COMPUTING":
                 return computingcategory;
-            case CATEGORIES_DATA_TYPE.SUPERMARKET:
+            case "SUPERMARKET":
                 return supermarketcategory;
-            case CATEGORIES_DATA_TYPE.PHONES_AND_TABLETS:
+            case "PHONES_AND_TABLETS":
                 return phoneandtabletcategory;
             default:
                 return '';

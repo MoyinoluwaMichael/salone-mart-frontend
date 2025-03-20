@@ -1,5 +1,9 @@
 import axiosInstance from '../utils/axiosInstance';
+<<<<<<< HEAD
 import images from "../constant/images";
+=======
+import images from '../constant/images';
+>>>>>>> 6845f648a8cc32201f2b2303227a4558a4075d3a
 
 export interface ProductCategory {
     id: number;
@@ -55,6 +59,11 @@ export const CATEGORY_DETAILS = {
         icon: images.getIconByCategoryName(CATEGORIES_DATA_TYPE.SUPERMARKET)
     }
 };
+
+export const fetchCategoryDetails = (categoryName: string): ProductCategory => {
+    return CATEGORY_DETAILS[categoryName as keyof typeof CATEGORY_DETAILS];
+};
+
 export const fetchProductCategories = async () => {
     try {
         const response = await axiosInstance.get('/products/categories');

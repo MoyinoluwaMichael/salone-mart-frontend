@@ -7,7 +7,7 @@ const ProductListing = () => {
   return (
     <>
       <Header />
-      <HeroSection />
+      {/* <HeroSection /> */}
       <ProductGrid />
       <Footer />
     </>
