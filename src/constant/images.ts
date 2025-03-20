@@ -4,7 +4,7 @@ import homeandofficecategory from "../assets/landinpage/homeandofficecategory.pn
 import computingcategory from "../assets/landinpage/homeandofficecategory.png";
 import supermarketcategory from "../assets/landinpage/supermarketcategory.png";
 import phoneandtabletcategory from "../assets/landinpage/phoneandtabletcategory.png";
-import {CATEGORIES_DATA_TYPE} from "../service/productService.ts";
+import {CATEGORIES_DATA_TYPE} from "@/service/productService";
 
 
 const images = {

@@ -104,6 +104,7 @@ const  SellerRegister = ({ onNavigate }: SellerRegisterProps) => {
                 onChange={handleChange}
                 required
                 placeholder="John"
+                type="text"
               />
               <Input
                 label="Last Name"
@@ -113,6 +114,7 @@ const  SellerRegister = ({ onNavigate }: SellerRegisterProps) => {
                 onChange={handleChange}
                 required
                 placeholder="Doe"
+                type="text"
               />
             </div>
             <Input
@@ -169,6 +171,7 @@ const  SellerRegister = ({ onNavigate }: SellerRegisterProps) => {
               onChange={handleChange}
               required
               placeholder="Your Business Name"
+              type="text"
             />
             <div className="mb-4">
               <label
@@ -201,6 +204,7 @@ const  SellerRegister = ({ onNavigate }: SellerRegisterProps) => {
               onChange={handleChange}
               required
               placeholder="Tax ID / Registration Number"
+              type="text"
             />
             <Input
               label="Business Website (optional)"
@@ -209,6 +213,7 @@ const  SellerRegister = ({ onNavigate }: SellerRegisterProps) => {
               value={formData.website}
               onChange={handleChange}
               placeholder="https://yourbusiness.com"
+              type="text"
             />
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -265,6 +270,7 @@ const  SellerRegister = ({ onNavigate }: SellerRegisterProps) => {
               onChange={handleChange}
               required
               placeholder="123 Business St"
+              type="text"
             />
             <div className="grid grid-cols-2 gap-4">
               <Input
@@ -275,6 +281,7 @@ const  SellerRegister = ({ onNavigate }: SellerRegisterProps) => {
                 onChange={handleChange}
                 required
                 placeholder="City"
+                type="text"
               />
               <Input
                 label="State / Province"
@@ -284,12 +291,14 @@ const  SellerRegister = ({ onNavigate }: SellerRegisterProps) => {
                 onChange={handleChange}
                 required
                 placeholder="State"
+                type="text"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <Input
                 label="Postal / Zip Code"
                 id="zipCode"
+                type="text"
                 name="zipCode"
                 value={formData.zipCode}
                 onChange={handleChange}

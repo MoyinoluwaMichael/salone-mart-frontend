@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { applicationConstants } from '@/constant/data';
+import { useNavigate } from 'react-router-dom';
 import {
   Search,
   ShoppingCart,
@@ -14,17 +15,27 @@ import {
 } from 'lucide-react';
 import {
   CATEGORIES_DATA_TYPE,
-  CATEGORY_DETAILS
+  CATEGORY_DETAILS, fetchCategoryDetails
 } from "@/service/productService";
+import {retrieveFromStorage, CUSTOMER_DATA, AuthenticationResponse, BioData} from "@/service/authenticationService";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
+  const [userData, setUserData] = useState<AuthenticationResponse | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
-  const categories = Object.values(CATEGORIES_DATA_TYPE);
+  const navigate = useNavigate();
+  const categories: string[] = Object.values(CATEGORIES_DATA_TYPE);
+
+  useEffect(() => {
+    const customerData: AuthenticationResponse = retrieveFromStorage(CUSTOMER_DATA) as AuthenticationResponse;
+    if (customerData) {
+      setUserData(customerData);
+    }
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -46,6 +57,16 @@ const Header = () => {
       searchRef.current.focus();
     }
   }, [isSearchOpen]);
+
+  // Handle account navigation based on login status
+  const handleAccountNavigation = (e: any) => {
+    e.preventDefault();
+    if (userData) {
+      navigate('/user-profile'); // Navigate to profile if logged in
+    } else {
+      navigate('/auth'); // Navigate to auth/login if not logged in
+    }
+  };
 
   return (
       <header className="bg-white w-full shadow-sm">
@@ -112,39 +133,58 @@ const Header = () => {
               </div>
             </div>
 
-            {/* Mobile search button */}
-            <div className="flex md:hidden items-center">
+            {/* Mobile search and action buttons - Rearranged */}
+            <div className="flex md:hidden items-center space-x-3">
               <button
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
                   className="text-blue-700 p-1"
               >
-                <Search size={22} />
+                <Search size={24} />
               </button>
             </div>
 
             {/* Action buttons */}
-            <div className="flex items-center space-x-4 md:space-x-6">
-              <a href="#" className="flex flex-col items-center text-gray-700 hover:text-blue-600 transition-colors">
-                <User size={20} />
-                <span className="text-xs mt-1 hidden md:block">Account</span>
+            <div className="flex items-center space-x-3 md:space-x-6">
+              {/* Account with user logged in indicator */}
+              <a href="#" onClick={handleAccountNavigation} className="flex flex-col items-center text-gray-700 hover:text-blue-600 transition-colors relative group">
+                {userData ? (
+                    <>
+                      <div className="relative">
+                        <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
+                          ✓
+                        </div>
+                        <User size={24} className="group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+                      <span className="text-xs mt-1 hidden md:block group-hover:text-blue-600">Hi, {userData?.user?.bioData?.firstName}</span>
+                    </>
+                ) : (
+                    <>
+                      <User size={24} className="group-hover:scale-110 transition-transform duration-300" />
+                      <span className="text-xs mt-1 hidden md:block group-hover:text-blue-600">Account</span>
+                    </>
+                )}
               </a>
-              <a href="#" className="flex flex-col items-center text-gray-700 hover:text-blue-600 transition-colors">
+
+              {/* Saved/Wishlist */}
+              <a href="#" className="flex flex-col items-center text-gray-700 hover:text-blue-600 transition-colors group">
                 <div className="relative">
-                  <Heart size={20} />
+                  <Heart size={24} className="group-hover:scale-110 transition-transform duration-300" />
                   <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   0
                 </span>
                 </div>
-                <span className="text-xs mt-1 hidden md:block">Saved</span>
+                <span className="text-xs mt-1 hidden md:block group-hover:text-blue-600">Saved</span>
               </a>
-              <a href="#" className="flex flex-col items-center text-gray-700 hover:text-blue-600 transition-colors">
+
+              {/* Cart */}
+              <a href="#" className="flex flex-col items-center text-gray-700 hover:text-blue-600 transition-colors group">
                 <div className="relative">
-                  <ShoppingCart size={20} />
+                  <ShoppingCart size={24} className="group-hover:scale-110 transition-transform duration-300" />
                   <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   0
                 </span>
                 </div>
-                <span className="text-xs mt-1 hidden md:block">Cart</span>
+                <span className="text-xs mt-1 hidden md:block group-hover:text-blue-600">Cart</span>
               </a>
             </div>
           </div>
@@ -160,7 +200,7 @@ const Header = () => {
                         href="#"
                         className="block px-3 py-1 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
                     >
-                      {CATEGORY_DETAILS[category].description}
+                      {fetchCategoryDetails(category).description}
                     </a>
                   </li>
               ))}
@@ -217,7 +257,7 @@ const Header = () => {
                     {categories.slice(0, 5).map((category, index) => (
                         <li key={index}>
                           <a href="#" className="flex items-center justify-between py-2 text-gray-700 hover:text-blue-600 transition-colors border-b border-gray-100">
-                            <span>{CATEGORY_DETAILS[category].description}</span>
+                            <span>{fetchCategoryDetails(category).description}</span>
                             <ChevronDown size={16} />
                           </a>
                         </li>
@@ -236,7 +276,19 @@ const Header = () => {
                   className="bg-white w-4/5 h-full shadow-lg py-2 px-4 animate-slideRight overflow-y-auto"
               >
                 <div className="flex items-center justify-between mb-4 border-b border-gray-200 pb-2">
-                  <span className="text-lg font-medium">Categories</span>
+                  {userData ? (
+                      <div className="flex items-center text-blue-700">
+                        <div className="relative">
+                          <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                            ✓
+                          </div>
+                          <User size={18} className="mr-2" />
+                        </div>
+                        <span className="font-medium">Hi, {userData?.user?.bioData?.firstName}</span>
+                      </div>
+                  ) : (
+                      <span className="text-lg font-medium">Categories</span>
+                  )}
                   <button
                       onClick={() => setIsMenuOpen(false)}
                       className="text-gray-700 p-1"
@@ -246,20 +298,36 @@ const Header = () => {
                 </div>
 
                 <div className="space-y-1">
-                  {categories.map((category, index) => (
+                  {userData && (
+                      <div className="border-b border-gray-100 pb-2 mb-2">
+                        <a
+                            href="#"
+                            className="block py-2 text-blue-600 font-medium"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsMenuOpen(false);
+                              navigate('/user-profile');
+                            }}
+                        >
+                          My Profile
+                        </a>
+                      </div>
+                  )}
+
+                  {categories.map((category: string, index) => (
                       <div key={index} className="border-b border-gray-100 last:border-0">
                         <button
-                            onClick={() => setActiveCategoryId(activeCategoryId === category.id ? null : category.id)}
+                            onClick={() => setActiveCategoryId(activeCategoryId === fetchCategoryDetails(category).id ? null : fetchCategoryDetails(category).id)}
                             className="w-full flex items-center justify-between py-3 text-gray-800 hover:text-blue-600 transition-colors"
                         >
-                          <span>{CATEGORY_DETAILS[category].description}</span>
+                          <span>{fetchCategoryDetails(category).description}</span>
                           <ChevronDown
                               size={16}
-                              className={`transform transition-transform duration-300 ${activeCategoryId === category.id ? 'rotate-180' : ''}`}
+                              className={`transform transition-transform duration-300 ${activeCategoryId === fetchCategoryDetails(category).id ? 'rotate-180' : ''}`}
                           />
                         </button>
 
-                        {activeCategoryId === category.id && (
+                        {activeCategoryId === fetchCategoryDetails(category).id && (
                             <div className="pl-4 pb-2 animate-slideDown">
                               {[1, 2, 3].map((subItem) => (
                                   <a
@@ -267,7 +335,7 @@ const Header = () => {
                                       href="#"
                                       className="block py-2 text-sm text-gray-600 hover:text-blue-600"
                                   >
-                                    {CATEGORY_DETAILS[category].description} Subcategory {subItem}
+                                    {fetchCategoryDetails(category).description} Subcategory {subItem}
                                   </a>
                               ))}
                             </div>
@@ -277,15 +345,20 @@ const Header = () => {
                 </div>
 
                 <div className="mt-6 border-t border-gray-200 pt-4">
-                  {categories.length === 0 ? (
-                      <p className="text-gray-500">Loading categories...</p>
-                  ) : (
-                      categories.map((category, index) => (
-                          <a key={index} href="#" className="block py-2 text-gray-700 hover:text-blue-600 transition-colors">
-                            {CATEGORY_DETAILS[category].description}
-                          </a>
-                      ))
+                  {!userData && (
+                      <a
+                          href="#"
+                          className="block py-2 text-blue-600 hover:text-blue-700 transition-colors font-medium"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsMenuOpen(false);
+                            navigate('/auth');
+                          }}
+                      >
+                        Sign In / Register
+                      </a>
                   )}
+
                   <a href="#" className="block py-2 text-gray-700 hover:text-blue-600 transition-colors">
                     Help Center
                   </a>

@@ -1,5 +1,5 @@
 import axiosInstance from '../utils/axiosInstance';
-import images from "../constant/images.ts";
+import images from '../constant/images';
 
 export interface ProductCategory {
     id: number;
@@ -55,6 +55,11 @@ export const CATEGORY_DETAILS = {
         icon: images.getIconByCategoryName(CATEGORIES_DATA_TYPE.SUPERMARKET)
     }
 };
+
+export const fetchCategoryDetails = (categoryName: string): ProductCategory => {
+    return CATEGORY_DETAILS[categoryName as keyof typeof CATEGORY_DETAILS];
+};
+
 export const fetchProductCategories = async () => {
     try {
         const response = await axiosInstance.get('/products/categories');
