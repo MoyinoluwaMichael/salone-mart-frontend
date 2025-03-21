@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
-import LandingPage from './pages/landingpage';
-import UserAuthentication from './pages/UserAuthentication';
-import ProductListing from './pages/ProductLising';
-import UserProfile from "@/pages/userprofile";
-import ProductDetails from './pages/ProductDetails';
+import LandingPage from './home/HomePage';
+import UserAuthentication from './authentication/AuthenticationPage';
+import ProductListing from './product/productlist/ProductListPage';
+import UserProfile from "@/userprofile/UserProfilePage";
+import ProductDetails from './product/productdetail/ProductDetailPage';
 
 
 function App(): JSX.Element {
@@ -14,7 +14,7 @@ function App(): JSX.Element {
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/auth' element={<UserAuthentication />} />
-        <Route path='/product' element={<ProductListing />} />  {/* Query params*/}
+        <Route path='/products' element={<ProductListing />} />  {/* Query params*/}
         <Route path='/user-profile' element={<UserProfile />} />
         <Route path='/details' element={<ProductDetails />} />
         </Routes>
