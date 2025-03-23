@@ -31,3 +31,16 @@ class CustomStorageService implements StorageService {
     }
 
 }
+
+export const saveToStorage = (key: string, data: object): void => {
+    sessionStorage.setItem(key, JSON.stringify(data));
+};
+
+    export const retrieveFromStorage = (key: string): object | null => {
+    const item = sessionStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
+};
+
+export const removeFromStorage = (key: string): void => {
+    sessionStorage.removeItem(key);
+};

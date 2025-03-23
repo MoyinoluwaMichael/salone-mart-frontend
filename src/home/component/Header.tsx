@@ -17,7 +17,8 @@ import {
   CATEGORIES_DATA_TYPE,
   CATEGORY_DETAILS, fetchCategoryDetails
 } from "@/product/productService";
-import {retrieveFromStorage, CUSTOMER_DATA, AuthenticationResponse, BioData} from "@/authentication/authenticationService";
+import {CUSTOMER_DATA, AuthenticationResponse, BioData} from "@/authentication/authenticationService";
+import {retrieveFromStorage} from "@/utils/storageservice";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +29,7 @@ const Header = () => {
   const searchRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
-  const categories: string[] = Object.values(CATEGORIES_DATA_TYPE);
+  const categories: CATEGORIES_DATA_TYPE[] = Object.values(CATEGORIES_DATA_TYPE);
 
   useEffect(() => {
     const customerData: AuthenticationResponse = retrieveFromStorage(CUSTOMER_DATA) as AuthenticationResponse;
@@ -314,7 +315,7 @@ const Header = () => {
                       </div>
                   )}
 
-                  {categories.map((category: string, index) => (
+                  {categories.map((category: CATEGORIES_DATA_TYPE, index) => (
                       <div key={index} className="border-b border-gray-100 last:border-0">
                         <button
                             onClick={() => setActiveCategoryId(activeCategoryId === fetchCategoryDetails(category).id ? null : fetchCategoryDetails(category).id)}

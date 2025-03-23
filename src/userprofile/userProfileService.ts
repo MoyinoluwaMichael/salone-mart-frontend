@@ -4,10 +4,10 @@ import {
     BioData,
     CUSTOMER_DATA,
     getProfilePicture, retrieveAuthenticationResponse,
-    saveToStorage,
     User
 } from "@/authentication/authenticationService";
 import {AxiosResponse} from "axios";
+import {saveToStorage} from "@/utils/storageservice";
 
 const SUPER_ADMIN = "SUPER_ADMIN";
 const ORDINARY_ADMIN = "ORDINARY_ADMIN";

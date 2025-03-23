@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    retrieveFromStorage,
     CUSTOMER_DATA,
-    removeFromStorage,
     BioData,
     AuthenticationResponse
 } from "@/authentication/authenticationService";
@@ -16,6 +14,7 @@ import OrdersTab from '@/userprofile/component/OrdersTab';
 import ProfileAddresses from '@/userprofile/component/ProfileAddresses';
 import WishlistTab from '@/userprofile/component/WishlistTab';
 import EditProfileForm from '@/userprofile/component/EditProfileForm';
+import {removeFromStorage, retrieveFromStorage} from "@/utils/storageservice";
 
 const UserProfile = () => {
     const [userData, setUserData] = useState<AuthenticationResponse | null>(null);

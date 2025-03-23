@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {motion} from 'framer-motion';
-import {products} from '@/constant/data';
-import ProductCard from '@/common/ProductCard';
+import ProductCard from '@/product/productdetail/component/ProductCard';
+import {mapProductToCardProps, Product, ProductsResponse, searchProducts} from "@/product/productService";
 
 
 const ProductGrid = () => {
 
+    const [products, setProducts] = React.useState<Product[] | null>(null);
     const containerVariants = {
         hidden: {opacity: 0},
         visible: {
@@ -15,6 +16,20 @@ const ProductGrid = () => {
             }
         }
     };
+
+    const fetchProducts = async () => {
+        try {
+            const response: ProductsResponse = await searchProducts(6);
+            setProducts(response.data);
+        } catch (err) {
+            console.error('Error fetching products:', err);
+        }
+    };
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -27,8 +42,8 @@ const ProductGrid = () => {
                 initial="hidden"
                 animate="visible"
             >
-                {products.map(product => (
-                    <ProductCard {...product} />
+                {products?.map(product => (
+                    <ProductCard product={mapProductToCardProps(product)} />
                 ))}
             </motion.div>
         </div>
