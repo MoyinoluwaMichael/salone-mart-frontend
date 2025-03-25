@@ -1,4 +1,4 @@
-import ProductDetailPage from "@/product/productdetail/component/ProductDetails";
+import ProductDetailPage from "@/product/productdetail/components/ProductDetails";
 import Footer from "@/common/Footer";
 import Header from "@/home/component/Header";
 

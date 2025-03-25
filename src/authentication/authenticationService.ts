@@ -21,7 +21,7 @@ export const registerACustomer = async (customerData: {
     }
 };
 
-export const CUSTOMER_DATA = 'customerData';
+export const AUTHENTICATION_RESPONSE_DATA = 'authentionResponseData';
 
 
 export interface DocumentType {
@@ -91,7 +91,7 @@ export function retrieveAuthenticationResponse(data: User, token: string) {
             }
         }
     };
-    saveToStorage(CUSTOMER_DATA, authResponse);
+    saveToStorage(AUTHENTICATION_RESPONSE_DATA, authResponse);
     return authResponse;
 }
 
@@ -104,7 +104,6 @@ export const login = async (customerData: {
         console.log("Logged in customer: ", response.data);
         if (response.status === 200 && response.data) {
             const data = response?.data;
-
             return retrieveAuthenticationResponse(data.user, data?.accessToken);
         }
     } catch (error) {

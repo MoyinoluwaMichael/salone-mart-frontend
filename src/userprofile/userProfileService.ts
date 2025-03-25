@@ -1,107 +1,101 @@
-import axiosInstance from "@/utils/axiosInstance";
-import {
-    AuthenticationResponse,
-    BioData,
-    CUSTOMER_DATA,
-    getProfilePicture, retrieveAuthenticationResponse,
-    User
-} from "@/authentication/authenticationService";
+import React from "react";
+import {FileMetaData, mapRoleToEndpoint, uploadMedia} from "@/userprofile/customer/customerProfileService";
+import {AuthenticationResponse, retrieveAuthenticationResponse, User} from "@/authentication/authenticationService";
 import {AxiosResponse} from "axios";
-import {saveToStorage} from "@/utils/storageservice";
+import axiosInstance from "@/utils/axiosInstance";
 
-const SUPER_ADMIN = "SUPER_ADMIN";
-const ORDINARY_ADMIN = "ORDINARY_ADMIN";
-const CUSTOMER = "CUSTOMER";
-const VENDOR = "VENDOR";
-
-function mapRoleToEndpoint(role: string | undefined) {
-    if (!role) {
-        return '/customers';
-    }
-    switch (role) {
-        case SUPER_ADMIN:
-            return '/admin';
-        case ORDINARY_ADMIN:
-            return '/admin';
-        case CUSTOMER:
-            return '/customers';
-        case VENDOR:
-            return '/vendors';
-        default:
-            return '/customers';
-    }
+interface BioData {
+    profilePicture?: string;
+    // Add other properties of BioData if needed
 }
 
-export interface FileMetaData {
-    id: string;
-    documentTypeId: number;
-    mediaCategory: string;
-}
+export const handleFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fileInputRef: React.RefObject<HTMLInputElement>,
+    setAlert: (alert: { type: string; message: string } | null) => void,
+    setIsUploading: (isUploading: boolean) => void,
+    setBioData: (bioData: BioData | null) => void,
+    userData: any,
+    navigate: (path: string) => void
+) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-export const uploadMedia = async (files: File[], fileMetaData: FileMetaData[], productId: number | null, userData: AuthenticationResponse): Promise<BioData | null> => {
-    try {
-        let url: string = 'media/upload';
-        let token = userData.accessToken;
-        let userId = userData.user.bioData.id;
-        const formData = new FormData();
-        files.forEach(file => formData.append('file', file));
-        formData.append('fileMetaData', JSON.stringify(fileMetaData));
-        formData.append('userId', userId.toString());
-        if (productId) formData.append('productId', productId.toString());
-
-        const response: AxiosResponse<BioData> = await axiosInstance.post(url, formData, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data'
-            }
+    // Validate file type
+    const validFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!validFileTypes.includes(file.type)) {
+        setAlert({
+            type: 'error',
+            message: 'Please upload a valid image file (JPEG, PNG, GIF, WEBP)'
         });
+        return;
+    }
 
-        if (response.status === 200 && response.data) {
-            response.data.profilePicture = getProfilePicture(response.data);
-            userData.user.bioData = response.data;
-            saveToStorage(CUSTOMER_DATA, userData);
-            return response.data;
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > maxSize) {
+        setAlert({
+            type: 'error',
+            message: 'File size exceeds 5MB. Please upload a smaller image.'
+        });
+        return;
+    }
+
+    try {
+        setIsUploading(true);
+        setAlert(null);
+
+        const files: File[] = [file];
+        let metaData: FileMetaData = {
+            id: file.name,
+            documentTypeId: 1,
+            mediaCategory: 'USER'
+        };
+        const fileMetaData: FileMetaData[] = [metaData];
+        const response = await uploadMedia(files, fileMetaData, null, userData);
+
+        if (response && response.profilePicture) {
+            setBioData((prev: BioData | null) => {
+                if (!prev) return null;
+                return { ...prev, profilePicture: response.profilePicture };
+            });
+
+            setAlert({
+                type: 'success',
+                message: 'Profile picture updated successfully!'
+            });
         }
-
-        return null;
     } catch (error: any) {
-        console.error('Error uploading media:', error);
-
-        if (error.response) {
-            console.error('Response error:', error.response.data);
-            console.error('Status:', error.response.status);
-
-            if (error.response.status === 413) {
-                throw new Error('File is too large. Please upload a smaller image.');
-            } else if (error.response.status === 415) {
-                throw new Error('Unsupported file type. Please use JPEG, PNG, or GIF images.');
-            } else if (error.response.status === 401) {
-                throw new Error('Unauthorized. Please log in again.');
-            } else if (error.response.data && error.response.data.message) {
-                throw new Error(error.response.data.message);
-            }
-        } else if (error.request) {
-            console.error('Request error:', error.request);
-            throw new Error('Network error. Please check your connection and try again.');
+        console.error('Error uploading profile picture:', error);
+        setAlert({
+            type: 'error',
+            message: 'Failed to upload profile picture. Please try again.'
+        });
+        if (error.response.status === 401 || error.response.status === 403) {
+            navigate('/auth');
         }
-
-        throw error;
+    } finally {
+        setIsUploading(false);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     }
 };
 
-export const findUserById = async (userId: number, userData: AuthenticationResponse, role: string): Promise<AuthenticationResponse | null> => {
+export const updateUserData = async (userId: number, bioData: BioData, accessToken: string, roles: string[]): Promise<AuthenticationResponse | null> => {
     try {
+        let role = roles[0];
         let url: string = `${mapRoleToEndpoint(role)}/${userId}`;
-        let token = userData.accessToken;
+        let token = accessToken;
 
-        const response: AxiosResponse<User> = await axiosInstance.get(url, {
+        const response: AxiosResponse<User> = await axiosInstance.patch(url, bioData, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
 
         if (response.status === 200 && response.data) {
-
+            console.log('response.data', response.data);
             return retrieveAuthenticationResponse(response.data, token);
         }
 

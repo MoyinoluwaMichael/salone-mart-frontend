@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {motion} from 'framer-motion';
-import ProductCard from '@/product/productdetail/component/ProductCard';
-import {mapProductToCardProps, Product, ProductsResponse, searchProducts} from "@/product/productService";
+import ProductCard from '@/product/productdetail/components/ProductCard';
+import {mapProductToCardProps, Product, searchProducts} from "@/product/productService";
+import {AppPageResponse} from "@/utils/apputils";
 
 
 const ProductGrid = () => {
@@ -19,7 +20,7 @@ const ProductGrid = () => {
 
     const fetchProducts = async () => {
         try {
-            const response: ProductsResponse = await searchProducts(6);
+            const response: AppPageResponse<Product> = await searchProducts(6);
             setProducts(response.data);
         } catch (err) {
             console.error('Error fetching products:', err);

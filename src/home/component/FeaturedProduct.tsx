@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import ProductCard from "../../product/productdetail/component/ProductCard";
+import ProductCard from "@/product/productdetail/components/ProductCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   CATEGORIES_DATA_TYPE,
   CATEGORY_DETAILS,
   mapProductToCardProps,
   Product, PRODUCT_LIST,
-  ProductsResponse,
   searchProducts
 } from "@/product/productService";
 import {retrieveFromStorage} from "@/utils/storageservice";
-import {ProductCardSkeleton} from "@/product/productdetail/component/ProductCardSkeleton";
+import {ProductCardSkeleton} from "@/product/productdetail/components/ProductCardSkeleton";
+import {AppPageResponse} from "@/utils/apputils";
 
 // Define a union type for active category
 type ActiveCategoryType = "all" | "new" | "discounted" | CATEGORIES_DATA_TYPE;
@@ -33,7 +33,7 @@ const FeaturedProducts = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response: ProductsResponse = await searchProducts(6);
+      const response: AppPageResponse<Product> = await searchProducts(6);
       setProducts(response.data);
     } catch (err) {
       console.error('Error fetching products:', err);

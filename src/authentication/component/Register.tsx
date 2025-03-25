@@ -145,7 +145,7 @@ const Register = ({ onNavigate }: any) => {
           <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-300 via-orange-500 to-amber-300 animate-pulse" style={{ animationDuration: '3s' }}></div>
 
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-            Create Account
+            Create Customer Account
           </h2>
 
           {/* API Error message with animation */}

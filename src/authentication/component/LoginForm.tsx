@@ -5,6 +5,7 @@ import google from '../../assets/google.svg';
 import Button from '../../common/Button';
 import {login} from "@/authentication/authenticationService";
 import { useNavigate } from 'react-router-dom';
+import {Roles} from "@/utils/routes";
 
 const LoginForm = ({ onLogin, onNavigate }: any) => {
   const [formData, setFormData] = useState({
@@ -84,9 +85,16 @@ const LoginForm = ({ onLogin, onNavigate }: any) => {
         email: formData.email,
         password: formData.password,
       };
-      await login(loginRequest);
-      onLogin();
-      navigate('/');
+      let authenticationResponse = await login(loginRequest);
+      if (authenticationResponse && authenticationResponse.user.bioData.roles.length > 0) {
+        let role: string = authenticationResponse.user.bioData.roles[0];
+        onLogin();
+        if (Roles.ADMINS.includes(role)) {
+          navigate('/admin-profile');
+        } else {
+          navigate('/');
+        }
+      }
     } catch (error) {
       setErrors({ general: 'Invalid email or password' });
       console.error('Login failed:', error);

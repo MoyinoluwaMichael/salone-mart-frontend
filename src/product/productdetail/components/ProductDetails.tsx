@@ -11,6 +11,7 @@ import {
   mapProductToCardProps, Review, Specification
 } from '../../productService';
 import { useLocation, useParams } from "react-router";
+import {AppPageResponse} from "@/utils/apputils";
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
@@ -41,7 +42,7 @@ const ProductDetailPage = () => {
 
     const fetchRelatedProducts = async () => {
       try {
-        const response = await searchProducts(6);
+        const response: AppPageResponse<Product> = await searchProducts(6);
         setRelatedProducts(response.data);
       } catch (err) {
         console.error('Error fetching related products:', err);

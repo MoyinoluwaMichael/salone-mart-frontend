@@ -1,5 +1,6 @@
 import axiosInstance from '../utils/axiosInstance';
 import images from "../constant/images";
+import {AppPageResponse} from "@/utils/apputils";
 
 export const PRODUCT_LIST = 'PRODUCT_LIST';
 export interface ProductCategory {
@@ -141,15 +142,7 @@ export interface Product {
     isNew: boolean;
 }
 
-export interface ProductsResponse {
-    pageNumber: number;
-    pageSize: number;
-    totalFilteredItems: number;
-    rowSize: number;
-    data: Product[];
-}
-
-export const searchProducts = async (size: number): Promise<ProductsResponse> => {
+export const searchProducts = async (size: number): Promise<AppPageResponse<Product>> => {
     try {
         const response = await axiosInstance.get('/products', {
             params: { size }

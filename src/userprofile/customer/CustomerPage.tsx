@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    CUSTOMER_DATA,
+    AUTHENTICATION_RESPONSE_DATA,
     BioData,
     AuthenticationResponse
 } from "@/authentication/authenticationService";
 
 // Import Components
-import ProfileHeader from '@/userprofile/component/ProfileHeader';
-import ProfileSidebar from '@/userprofile/component/ProfileSidebar';
-import ProfileOverview from '@/userprofile/component/ProfileOverview';
-import OrdersTab from '@/userprofile/component/OrdersTab';
-import ProfileAddresses from '@/userprofile/component/ProfileAddresses';
-import WishlistTab from '@/userprofile/component/WishlistTab';
-import EditProfileForm from '@/userprofile/component/EditProfileForm';
+import ProfileHeader from '@/userprofile/customer/components/ProfileHeader';
+import ProfileSidebar from '@/userprofile/customer/components/ProfileSidebar';
+import ProfileOverview from '@/userprofile/customer/components/ProfileOverview';
+import OrdersTab from '@/userprofile/customer/components/OrdersTab';
+import ProfileAddresses from '@/userprofile/customer/components/ProfileAddresses';
+import WishlistTab from '@/userprofile/customer/components/WishlistTab';
+import EditProfileForm from '@/userprofile/customer/components/EditProfileForm';
 import {removeFromStorage, retrieveFromStorage} from "@/utils/storageservice";
+import {Roles} from "@/utils/routes";
 
 const UserProfile = () => {
     const [userData, setUserData] = useState<AuthenticationResponse | null>(null);
@@ -24,9 +25,14 @@ const UserProfile = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const customerData: AuthenticationResponse = retrieveFromStorage(CUSTOMER_DATA) as AuthenticationResponse;
+        const customerData: AuthenticationResponse = retrieveFromStorage(AUTHENTICATION_RESPONSE_DATA) as AuthenticationResponse;
         if (customerData) {
-
+            let userRoles = customerData.user.bioData.roles;
+            if (userRoles.length > 0) {
+                if (Roles.CUSTOMER !== userRoles[0]) {
+                    navigate("/auth");
+                }
+            }
             setUserData(customerData);
             let bioData = customerData?.user?.bioData;
             setEditForm({
@@ -42,7 +48,7 @@ const UserProfile = () => {
     }, [navigate]);
 
     const handleLogout = () => {
-        removeFromStorage(CUSTOMER_DATA);
+        removeFromStorage(AUTHENTICATION_RESPONSE_DATA);
         navigate('/auth');
     };
 
