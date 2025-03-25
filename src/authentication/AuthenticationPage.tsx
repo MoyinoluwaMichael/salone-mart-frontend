@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import LoginForm from "@/authentication/component/LoginForm";
 import Register from "@/authentication/component/Register";
-import SellerRegister from "@/authentication/component/SellerRegister";
-import { ArrowLeft, ShoppingBag, User, UserPlus } from "lucide-react";
+import { ArrowLeft, Home, User, UserPlus } from "lucide-react";
 
 const UserAuthentication = () => {
   // Initialize state from URL parameter or default to "login"
@@ -11,8 +10,7 @@ const UserAuthentication = () => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const page: string | null = params.get("page");
-      if (page != null && ["login", "register", "s" +
-      "ellerRegister"].includes(page)) {
+      if (page != null && ["login", "register"].includes(page)) {
         return page;
       }
     }
@@ -95,6 +93,11 @@ const UserAuthentication = () => {
     }, 400);
   };
 
+  // Navigate to homepage
+  const navigateToHome = () => {
+    window.location.href = "/";
+  };
+
   // Enhanced animation variants
   const getAnimationVariants = () => {
     switch (animation) {
@@ -142,13 +145,6 @@ const UserAuthentication = () => {
           gradient: "from-blue-500 to-indigo-500",
           color: "text-blue-500"
         };
-      case "sellerRegister":
-        return {
-          icon: <ShoppingBag className="text-purple-500" size={isMobile ? 18 : 22} />,
-          title: "Seller Registration",
-          gradient: "from-purple-500 to-violet-500",
-          color: "text-purple-500"
-        };
       default:
         return {
           icon: <User className="text-orange-500" size={isMobile ? 18 : 22} />,
@@ -180,9 +176,6 @@ const UserAuthentication = () => {
             )}
             {currentPage === "register" && (
                 <Register onNavigate={navigateWithAnimation} />
-            )}
-            {currentPage === "sellerRegister" && (
-                <SellerRegister onNavigate={navigateWithAnimation} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -268,6 +261,19 @@ const UserAuthentication = () => {
       >
         <BubbleBackground />
 
+        {/* Home button - Fixed position for easy access */}
+        <motion.button
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            onClick={navigateToHome}
+            className="fixed top-4 left-4 z-50 p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-all duration-300"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+        >
+          <Home size={isMobile ? 20 : 24} className="text-gray-700" />
+        </motion.button>
+
         <div className={`w-full ${isMobile ? 'max-w-full px-0' : 'max-w-lg px-4'} mx-auto relative z-10`}>
           {/* Authentication Card */}
           <motion.div
@@ -320,16 +326,6 @@ const UserAuthentication = () => {
                       Register
                     </motion.button>
                 )}
-                {currentPage !== "sellerRegister" && (
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => navigateWithAnimation("sellerRegister", "scale")}
-                        className={`${isMobile ? 'px-3 py-1' : 'px-4 py-1.5'} rounded-full text-sm font-medium bg-white text-purple-500 hover:bg-purple-50 transition-colors duration-300`}
-                    >
-                      Seller
-                    </motion.button>
-                )}
               </div>
             </div>
 
@@ -371,7 +367,6 @@ const UserAuthentication = () => {
                   >
                     {currentPage === "login" && "Secure login to access your account"}
                     {currentPage === "register" && "Join us to get started with your journey"}
-                    {currentPage === "sellerRegister" && "Register as a seller to start showcasing your products"}
                   </motion.p>
               )}
             </div>
