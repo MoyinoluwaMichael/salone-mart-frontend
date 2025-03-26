@@ -1,48 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
- const HeroSection = () => {
-  const [currentSlide, setCurrentSlide] = useState(0)
+import React, { useEffect, useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import images from "@/constant/images";
+
+const HeroSection = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
   const slides = [
     {
       id: 1,
-      image:
-        'https://images.unsplash.com/photo-1607082350899-7e105aa886ae?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      title: 'Big Sale Weekend',
-      subtitle: 'Up to 70% off on electronics',
-      ctaText: 'Shop Now',
+      image: images.landingPage.sale,
+      title: "Big Sale Weekend",
+      subtitle: "Up to 70% off on electronics",
+      ctaText: "Shop Now",
     },
     {
       id: 2,
-      image:
-        'https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      title: 'New Fashion Collection',
-      subtitle: 'Get the latest trends at amazing prices',
-      ctaText: 'Discover',
+      image: images.landingPage.openshop,
+      title: "New Fashion Collection",
+      subtitle: "Get the latest trends at amazing prices",
+      ctaText: "Discover",
     },
     {
       id: 3,
-      image:
-        'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      title: 'Home Essentials',
-      subtitle: 'Everything you need for your home',
-      ctaText: 'Browse',
+      image: images.landingPage.clothingShop,
+      title: "Home Essentials",
+      subtitle: "Everything you need for your home",
+      ctaText: "Browse",
     },
   ];
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1))
+    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   };
-  
+
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
   // Auto slide
   useEffect(() => {
     const interval = setInterval(() => {
-      nextSlide()
-    }, 5000)
-    return () => clearInterval(interval)
+      nextSlide();
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -58,12 +57,14 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
           >
             {slides.map((slide) => (
               <div key={slide.id} className="min-w-full h-full relative">
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center p-8 md:p-16">
+                <div className=" absolute top-0 left-0">
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-[#0000007a] bg-opacity-30 flex flex-col justify-center p-8 md:p-16">
                   <h2 className="text-white text-3xl md:text-4xl font-bold mb-2">
                     {slide.title}
                   </h2>
@@ -86,14 +87,14 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
             className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all"
             aria-label="Previous slide"
           >
-            <ChevronLeftIcon size={24} className='text-black' />
+            <ChevronLeftIcon size={24} className="text-black" />
           </button>
           <button
             onClick={nextSlide}
             className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all"
             aria-label="Next slide"
           >
-            <ChevronRightIcon size={24} className='text-black' />
+            <ChevronRightIcon size={24} className="text-black" />
           </button>
           {/* Indicators */}
           <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
@@ -101,7 +102,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-orange-500' : 'bg-white bg-opacity-50'}`}
+                className={`w-3 h-3 rounded-full ${
+                  currentSlide === index
+                    ? "bg-orange-500"
+                    : "bg-white bg-opacity-50"
+                }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
@@ -109,8 +114,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
         </div>
       </div>
     </div>
-  )
-}
-
+  );
+};
 
 export default HeroSection;
