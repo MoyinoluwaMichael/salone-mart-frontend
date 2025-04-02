@@ -50,3 +50,7 @@ export const sierraLeoneColors = {
     lightGreen: '#4ADE80',
     midGreen: '#16A34A'
 };
+
+export const sierraLeoneCurrencySymbol = (): string => {
+    return 'Le';
+};

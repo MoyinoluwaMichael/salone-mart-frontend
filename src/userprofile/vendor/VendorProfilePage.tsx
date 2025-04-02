@@ -146,6 +146,7 @@ const VendorProfile: React.FC = () => {
           onLogout={handleLogout}
           onToggleSidebar={toggleSidebar}
           sidebarOpen={sidebarOpen}
+          userData={userData}
         />
 
         <div className="container mx-auto px-4 py-6 pt-[5rem]">
@@ -188,7 +189,9 @@ const VendorProfile: React.FC = () => {
                   setIsEditing={setIsEditing}
                 />
               )}
-              {activeTab === "products" && <VendorProductManagement />}
+              {activeTab === "products" && <VendorProductManagement
+                userData={userData}
+              />}
               {activeTab === "orders" && <VendorOrderManagement />}
               {activeTab === "business-profile" && <VendorBusinessProfile />}
               {activeTab === "account-profile" && <VendorAccountProfile />}
