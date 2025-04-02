@@ -56,7 +56,7 @@ const VendorAccountProfile: React.FC = () => {
                 <h1 className="text-2xl font-bold text-white">Account Profile</h1>
                 <button
                     onClick={() => setIsEditing(!isEditing)}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white
                     px-4 py-2 rounded-lg flex items-center transition-colors"
                 >
                     {isEditing ? (
@@ -74,122 +74,129 @@ const VendorAccountProfile: React.FC = () => {
             {/* Account Details */}
             <div className="grid md:grid-cols-2 gap-6">
                 {/* Personal Information */}
-                <div className="bg-emerald-800 rounded-lg p-6 space-y-4">
+                <div className="bg-gray-900 rounded-lg p-6 space-y-4">
                     <div className="flex items-center mb-4">
-                        <User className="text-emerald-400 mr-4" size={24} />
+                        <User className="text-blue-400 mr-4" size={24} />
                         <h2 className="text-xl font-semibold text-white">Personal Information</h2>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-4">
                         <div>
-                            <label className="text-emerald-300 block mb-2">First Name</label>
+                            <label className="text-white block mb-2">First Name</label>
                             {isEditing ? (
                                 <input
                                     type="text"
                                     name="firstName"
                                     value={accountProfile.firstName}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                    className="w-full px-3 py-2 bg-gray-900 border-1 border-gray-500
+                                     text-white rounded-lg"
                                 />
                             ) : (
-                                <p className="text-white">{accountProfile.firstName}</p>
+                                <p className="text-gray-400">{accountProfile.firstName}</p>
                             )}
                         </div>
                         <div>
-                            <label className="text-emerald-300 block mb-2">Last Name</label>
+                            <label className="text-white block mb-2">Last Name</label>
                             {isEditing ? (
                                 <input
                                     type="text"
                                     name="lastName"
                                     value={accountProfile.lastName}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                    className="w-full px-3 py-2 bg-gray-900 border-1 border-gray-500
+                                     text-white rounded-lg"
                                 />
                             ) : (
-                                <p className="text-white">{accountProfile.lastName}</p>
+                                <p className="text-gray-400">{accountProfile.lastName}</p>
                             )}
                         </div>
                     </div>
 
                     <div>
-                        <label className="text-emerald-300 block mb-2">Email Address</label>
+                        <label className="text-white block mb-2">Email Address</label>
                         {isEditing ? (
                             <input
                                 type="email"
                                 name="email"
                                 value={accountProfile.email}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                className="w-full px-3 py-2 bg-gray-900 border-1 border-gray-500
+                                 text-white rounded-lg"
                             />
                         ) : (
-                            <p className="text-white">{accountProfile.email}</p>
+                            <p className="text-gray-400">{accountProfile.email}</p>
                         )}
                     </div>
 
                     <div>
-                        <label className="text-emerald-300 block mb-2">Phone Number</label>
+                        <label className="text-white block mb-2">Phone Number</label>
                         {isEditing ? (
                             <input
                                 type="tel"
                                 name="phoneNumber"
                                 value={accountProfile.phoneNumber}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                className="w-full px-3 py-2 bg-gray-900 border-1 border-gray-500
+                                 text-white rounded-lg"
                             />
                         ) : (
-                            <p className="text-white">{accountProfile.phoneNumber}</p>
+                            <p className="text-gray-400">{accountProfile.phoneNumber}</p>
                         )}
                     </div>
                 </div>
 
                 {/* Account Security */}
-                <div className="bg-emerald-800 rounded-lg p-6 space-y-4">
+                <div className="bg-gray-900 rounded-lg p-6 space-y-4">
                     <div className="flex items-center mb-4">
-                        <Shield className="text-emerald-400 mr-4" size={24} />
+                        <Shield className="text-blue-400 mr-4" size={24} />
                         <h2 className="text-xl font-semibold text-white">Account Security</h2>
                     </div>
 
                     <div className="space-y-4">
                         <div>
-                            <label className="text-emerald-300 block mb-2">Role</label>
-                            <p className="text-white">{accountProfile.role}</p>
+                            <label className="text-white block mb-2">Role</label>
+                            <p className="text-gray-400">{accountProfile.role}</p>
                         </div>
 
                         <div>
-                            <label className="text-emerald-300 block mb-2">Last Login</label>
-                            <p className="text-white">{accountProfile.lastLogin}</p>
+                            <label className="text-white block mb-2">Last Login</label>
+                            <p className="text-gray-400">{accountProfile.lastLogin}</p>
                         </div>
 
                         {isEditing ? (
                             <div className="space-y-4">
                                 <div>
-                                    <label className="text-emerald-300 block mb-2">Current Password</label>
+                                    <label className="text-white block mb-2">Current Password</label>
                                     <input
                                         type="password"
                                         name="currentPassword"
                                         value={passwordChange.currentPassword}
                                         onChange={handlePasswordChange}
-                                        className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                        className="w-full px-3 py-2 bg-gray-900 border-1 border-gray-500
+                                         text-white rounded-lg"
                                     />
                                 </div>
                                 <div>
-                                    <label className="text-emerald-300 block mb-2">New Password</label>
+                                    <label className="text-white block mb-2">New Password</label>
                                     <input
                                         type="password"
                                         name="newPassword"
                                         value={passwordChange.newPassword}
                                         onChange={handlePasswordChange}
-                                        className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                        className="w-full px-3 py-2 bg-gray-900 border-1 border-gray-500
+                                         text-white rounded-lg"
                                     />
                                 </div>
                                 <div>
-                                    <label className="text-emerald-300 block mb-2">Confirm New Password</label>
+                                    <label className="text-white block mb-2">Confirm New Password</label>
                                     <input
                                         type="password"
                                         name="confirmPassword"
                                         value={passwordChange.confirmPassword}
                                         onChange={handlePasswordChange}
-                                        className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                        className="w-full px-3 py-2 bg-gray-900 border-1 border-gray-500
+                                         text-white rounded-lg"
                                     />
                                 </div>
                             </div>
@@ -197,8 +204,8 @@ const VendorAccountProfile: React.FC = () => {
 
                         <div className="flex justify-between items-center">
                             <div>
-                                <label className="text-emerald-300 block mb-2">Two-Factor Authentication</label>
-                                <p className="text-white">
+                                <label className="text-white block mb-2">Two-Factor Authentication</label>
+                                <p className="text-gray-400">
                                     {accountProfile.twoFactorAuth ? 'Enabled' : 'Disabled'}
                                 </p>
                             </div>

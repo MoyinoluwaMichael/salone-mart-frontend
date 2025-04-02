@@ -13,8 +13,8 @@ export const Roles = {
 const useNavigateBasedOnRole = (authenticationResponse: AuthenticationResponse) => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        let userRoles = authenticationResponse.user.bioData.roles;
+    useEffect(() => { 
+        const userRoles = authenticationResponse.user.bioData.roles;
         if (userRoles.length > 0) {
             if ("CUSTOMER" === userRoles[0]) {
                 navigate("/profile", { state: { authenticationResponse: authenticationResponse.user } });

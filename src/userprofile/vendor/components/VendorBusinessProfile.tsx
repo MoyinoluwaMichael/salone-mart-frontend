@@ -36,7 +36,7 @@ const VendorBusinessProfile: React.FC = () => {
                 <h1 className="text-2xl font-bold text-white">Business Profile</h1>
                 <button
                     onClick={() => setIsEditing(!isEditing)}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white
                     px-4 py-2 rounded-lg flex items-center transition-colors"
                 >
                     {isEditing ? (
@@ -54,9 +54,9 @@ const VendorBusinessProfile: React.FC = () => {
             {/* Business Details */}
             <div className="grid md:grid-cols-2 gap-6">
                 {/* Left Column */}
-                <div className="bg-emerald-800 rounded-lg p-6 space-y-4">
+                <div className="bg-gray-900 shadow-sm shadow-gray-500 rounded-lg p-6 space-y-4">
                     <div>
-                        <label className="text-emerald-300 block mb-2">Business Name</label>
+                        <label className="text-white block mb-2">Business Name</label>
                         {isEditing ? (
                             <input
                                 type="text"
@@ -66,12 +66,12 @@ const VendorBusinessProfile: React.FC = () => {
                                 className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
                             />
                         ) : (
-                            <p className="text-white font-semibold">{businessProfile.businessName}</p>
+                            <p className="text-gray-400 font-semibold">{businessProfile.businessName}</p>
                         )}
                     </div>
 
                     <div>
-                        <label className="text-emerald-300 block mb-2">Business Description</label>
+                        <label className="text-whtie  block mb-2">Business Description</label>
                         {isEditing ? (
                             <textarea
                                 name="description"
@@ -80,13 +80,13 @@ const VendorBusinessProfile: React.FC = () => {
                                 className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg h-24"
                             />
                         ) : (
-                            <p className="text-emerald-200">{businessProfile.description}</p>
+                            <p className="text-gray-400">{businessProfile.description}</p>
                         )}
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="text-emerald-300 block mb-2">Founded</label>
+                            <label className="text-white block mb-2">Founded</label>
                             {isEditing ? (
                                 <input
                                     type="number"
@@ -96,11 +96,11 @@ const VendorBusinessProfile: React.FC = () => {
                                     className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
                                 />
                             ) : (
-                                <p className="text-white">{businessProfile.foundedYear}</p>
+                                <p className="text-gray-400">{businessProfile.foundedYear}</p>
                             )}
                         </div>
                         <div>
-                            <label className="text-emerald-300 block mb-2">Tax ID</label>
+                            <label className="text-white block mb-2">Tax ID</label>
                             {isEditing ? (
                                 <input
                                     type="text"
@@ -110,18 +110,18 @@ const VendorBusinessProfile: React.FC = () => {
                                     className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
                                 />
                             ) : (
-                                <p className="text-white">{businessProfile.taxId}</p>
+                                <p className="text-gray-400">{businessProfile.taxId}</p>
                             )}
                         </div>
                     </div>
                 </div>
 
                 {/* Right Column */}
-                <div className="bg-emerald-800 rounded-lg p-6 space-y-4">
+                <div className="bg-gray-900 shadow-sm shadow-gray-500 rounded-lg p-6 space-y-4">
                     <div className="flex items-center space-x-4 mb-4">
-                        <MapPin className="text-emerald-400" size={24} />
+                        <MapPin className="text-blue-400" size={24} />
                         <div>
-                            <label className="text-emerald-300 block mb-2">Business Address</label>
+                            <label className="text-white block mb-2">Business Address</label>
                             {isEditing ? (
                                 <input
                                     type="text"
@@ -131,15 +131,15 @@ const VendorBusinessProfile: React.FC = () => {
                                     className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
                                 />
                             ) : (
-                                <p className="text-white">{businessProfile.address}</p>
+                                <p className="text-gray-400">{businessProfile.address}</p>
                             )}
                         </div>
                     </div>
 
                     <div className="flex items-center space-x-4 mb-4">
-                        <Phone className="text-emerald-400" size={24} />
+                        <Phone className="text-blue-400" size={24} />
                         <div>
-                            <label className="text-emerald-300 block mb-2">Phone Number</label>
+                            <label className="text-white block mb-2">Phone Number</label>
                             {isEditing ? (
                                 <input
                                     type="tel"
@@ -149,15 +149,15 @@ const VendorBusinessProfile: React.FC = () => {
                                     className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
                                 />
                             ) : (
-                                <p className="text-white">{businessProfile.phone}</p>
+                                <p className="text-gray-400">{businessProfile.phone}</p>
                             )}
                         </div>
                     </div>
 
                     <div className="flex items-center space-x-4 mb-4">
-                        <Mail className="text-emerald-400" size={24} />
+                        <Mail className="text-blue-400" size={24} />
                         <div>
-                            <label className="text-emerald-300 block mb-2">Email Address</label>
+                            <label className="text-white block mb-2">Email Address</label>
                             {isEditing ? (
                                 <input
                                     type="email"
@@ -167,15 +167,15 @@ const VendorBusinessProfile: React.FC = () => {
                                     className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
                                 />
                             ) : (
-                                <p className="text-white">{businessProfile.email}</p>
+                                <p className="text-gray-400">{businessProfile.email}</p>
                             )}
                         </div>
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        <Globe className="text-emerald-400" size={24} />
+                        <Globe className="text-blue-400" size={24} />
                         <div>
-                            <label className="text-emerald-300 block mb-2">Website</label>
+                            <label className="text-white block mb-2">Website</label>
                             {isEditing ? (
                                 <input
                                     type="url"
@@ -189,7 +189,7 @@ const VendorBusinessProfile: React.FC = () => {
                                     href={`https://${businessProfile.website}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-emerald-400 hover:text-emerald-300"
+                                    className="text-gray-400 hover:text-gray-500 underline"
                                 >
                                     {businessProfile.website}
                                 </a>

@@ -3,9 +3,11 @@ import {
     Plus,
     Edit,
     Trash2,
-    Filter,
     Search
 } from 'lucide-react';
+import AddProductModal from './AddProductModal';
+
+
 
 interface Product {
     id: number;
@@ -61,13 +63,21 @@ const VendorProductManagement: React.FC = () => {
         }
     };
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddProduct = (productData) => {
+    // Logic to add product to your system
+    console.log(productData);
+  };
+
+
     return (
         <div className="space-y-6">
             {/* Product Management Header */}
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-white">My Products</h1>
                 <button
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white
                     px-4 py-2 rounded-lg flex items-center transition-colors"
                 >
                     <Plus className="mr-2" /> Add New Product
@@ -82,11 +92,11 @@ const VendorProductManagement: React.FC = () => {
                         placeholder="Search products..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full px-4 py-2 bg-emerald-700 text-white
-                        rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="w-full px-4 py-2 bg-gray-700 text-white
+                        rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-gray-500"
                     />
                     <Search
-                        className="absolute left-3 top-3 text-emerald-300"
+                        className="absolute left-3 top-3 text-gray-300"
                         size={20}
                     />
                 </div>
@@ -94,7 +104,8 @@ const VendorProductManagement: React.FC = () => {
                 <select
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
-                    className="px-4 py-2 bg-emerald-700 text-white rounded-lg"
+                    className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700
+                     hover:to-purple-700 text-white rounded-lg"
                 >
                     <option value="">All Status</option>
                     <option value="Active">Active</option>
@@ -104,9 +115,9 @@ const VendorProductManagement: React.FC = () => {
             </div>
 
             {/* Product Table */}
-            <div className="bg-emerald-800 rounded-lg overflow-hidden">
+            <div className="bg-gray-700 rounded-lg overflow-hidden">
                 <table className="w-full">
-                    <thead className="bg-emerald-700 text-emerald-200">
+                    <thead className="bg-gradient-to-r from-blue-800 to-purple-800 text-emerald-200">
                     <tr>
                         <th className="p-4 text-left">Product Name</th>
                         <th className="p-4 text-left">Category</th>
@@ -120,7 +131,7 @@ const VendorProductManagement: React.FC = () => {
                     {filteredProducts.map(product => (
                         <tr
                             key={product.id}
-                            className="border-b border-emerald-700 hover:bg-emerald-700 transition-colors"
+                            className="  border-gray-600 border-b-[.5px] hover:bg-gray-600 transition-colors"
                         >
                             <td className="p-4">{product.name}</td>
                             <td className="p-4">{product.category}</td>
@@ -148,6 +159,12 @@ const VendorProductManagement: React.FC = () => {
                     </tbody>
                 </table>
             </div>
+
+            <AddProductModal 
+             isOpen={isModalOpen} 
+             onClose={() => setIsModalOpen(false)}
+             onAddProduct={handleAddProduct}
+            />
         </div>
     );
 };

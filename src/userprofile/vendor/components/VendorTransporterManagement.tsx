@@ -84,8 +84,8 @@ const VendorTransporterManagement: React.FC = () => {
                 <h1 className="text-2xl font-bold text-white">Transporter Management</h1>
                 <button
                     onClick={() => setIsAddingTransporter(true)}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white
-                    px-4 py-2 rounded-lg flex items-center transition-colors"
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700
+                     text-white px-4 py-2 rounded-lg flex items-center transition-colors"
                 >
                     <Plus className="mr-2" /> Add Transporter
                 </button>
@@ -155,11 +155,11 @@ const VendorTransporterManagement: React.FC = () => {
                     placeholder="Search transporters..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-4 py-2 bg-emerald-700 text-white
+                    className="w-full px-4 py-2 bg-gray-700 text-white
                     rounded-lg pl-10 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
                 <Search
-                    className="absolute left-3 top-3 text-emerald-300"
+                    className="absolute left-3 top-3 text-gray-300"
                     size={20}
                 />
             </div>
@@ -169,17 +169,17 @@ const VendorTransporterManagement: React.FC = () => {
                 {filteredTransporters.map(transporter => (
                     <div
                         key={transporter.id}
-                        className="bg-emerald-800 rounded-lg p-6 space-y-4 relative group"
+                        className="bg-gray-900 rounded-lg p-6 space-y-4 relative group"
                     >
                         <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button
-                                className="text-emerald-400 hover:text-emerald-300"
+                                className="text-purple-400 hover:text-purple-300"
                                 title="Edit Transporter"
                             >
                                 <Edit size={20} />
                             </button>
                             <button
-                                className="text-red-500 hover:text-red-400"
+                                className="text-red-300 hover:text-red-400"
                                 title="Remove Transporter"
                             >
                                 <Trash2 size={20} />
@@ -187,32 +187,32 @@ const VendorTransporterManagement: React.FC = () => {
                         </div>
 
                         <div className="flex items-center space-x-4 mb-4">
-                            <div className="bg-emerald-700 p-3 rounded-full">
-                                <Truck className="text-emerald-400" size={24} />
+                            <div className="border-1 border-gray-300 p-3 rounded-full">
+                                <Truck className="" size={24} />
                             </div>
                             <div>
                                 <h2 className="text-xl font-semibold text-white">{transporter.name}</h2>
-                                <p className="text-emerald-300">{transporter.company}</p>
+                                <p className="text-gray-400">{transporter.company}</p>
                             </div>
                         </div>
 
                         <div className="space-y-2">
                             <div className="flex items-center space-x-2">
-                                <Mail className="text-emerald-400" size={18} />
+                                <Mail className="text-purple-400" size={18} />
                                 <p className="text-white">{transporter.email}</p>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <Phone className="text-emerald-400" size={18} />
+                                <Phone className="text-blue-400" size={18} />
                                 <p className="text-white">{transporter.phone}</p>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mt-4">
-                            <div className="bg-emerald-700 p-3 rounded-lg text-center">
+                            <div className="border-1 border-gray-700 p-3 rounded-lg text-center">
                                 <p className="text-emerald-300 text-sm">Active Orders</p>
                                 <p className="text-white font-bold">{transporter.activeOrders}</p>
                             </div>
-                            <div className="bg-emerald-700 p-3 rounded-lg text-center">
+                            <div className="border-1 border-gray-700 p-3 rounded-lg text-center">
                                 <p className="text-emerald-300 text-sm">Rating</p>
                                 <p className="text-white font-bold">{transporter.rating.toFixed(1)}/5</p>
                             </div>

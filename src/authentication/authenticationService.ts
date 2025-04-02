@@ -99,6 +99,7 @@ export const login = async (customerData: {
     password: string;
     email: string;
 }): Promise<AuthenticationResponse | null> => {
+    console.log(customerData);
     try {
         const response: AxiosResponse<AuthenticationResponse> = await axiosInstance.post('/login', customerData);
         console.log("Logged in customer: ", response.data);
