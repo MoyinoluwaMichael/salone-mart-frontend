@@ -5,10 +5,12 @@ import axiosInstance from "@/utils/axiosInstance";
 import {Product} from "@/product/productService";
 import {AppPageResponse} from "@/utils/apputils";
 
-export const retrieveVendorProducts = async (vendorId: number, accessToken: string, roles: string[]): Promise<AppPageResponse<Product> | null> => {
+export const retrieveVendorProducts = async (
+    vendorId: number, accessToken: string, roles: string[], pageSize: number, pageNumber: number
+): Promise<AppPageResponse<Product> | null> => {
     try {
         let role = roles[0];
-        let url: string = `${mapRoleToEndpoint(role)}/${vendorId}/products`;
+        let url: string = `${mapRoleToEndpoint(role)}/${vendorId}/products?page=${pageNumber}&size=${pageSize}`;
         const response: AxiosResponse<AppPageResponse<Product> | null> = await axiosInstance.get(url, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`

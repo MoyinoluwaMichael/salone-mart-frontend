@@ -1,5 +1,6 @@
 import {BioData} from "@/authentication/authenticationService";
 import {ProductCategory} from "@/product/productService";
+import { format } from 'date-fns';
 
 export interface AppPageResponse<T> {
     pageNumber: number;
@@ -53,4 +54,9 @@ export const sierraLeoneColors = {
 
 export const sierraLeoneCurrencySymbol = (): string => {
     return 'Le';
+};
+
+export const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return format(date, 'yyyy-MM-dd');
 };
