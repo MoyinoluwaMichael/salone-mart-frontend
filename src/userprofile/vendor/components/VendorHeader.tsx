@@ -10,7 +10,7 @@ interface VendorHeaderProps {
 const VendorHeader: React.FC<VendorHeaderProps> = ({
   onLogout,
   onToggleSidebar,
-  sidebarOpen,
+  sidebarOpen, userData
 }) => {
   const sierraLeoneColors = {
     green: "#1EB53A",
@@ -67,7 +67,7 @@ const VendorHeader: React.FC<VendorHeaderProps> = ({
           <div className="relative group">
             <button className="text-white hover:text-emerald-300 flex items-center space-x-2">
               <User size={20} />
-              <span className="hidden md:block">Emma Rodriguez</span>
+              <span className="hidden md:block">{userData.user.businessName}</span>
             </button>
 
             {/* Dropdown Menu */}

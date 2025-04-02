@@ -59,6 +59,7 @@ export interface BioData {
 export interface User {
     id: number;
     bioData: BioData;
+    businessName: string
 }
 
 export interface AuthenticationResponse {
@@ -77,6 +78,7 @@ export function retrieveAuthenticationResponse(data: User, token: string) {
     const authResponse: AuthenticationResponse = {
         accessToken: token,
         user: {
+            ...user,
             id: user?.id,
             bioData: {
                 id: bioData?.id,

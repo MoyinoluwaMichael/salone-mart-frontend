@@ -1,57 +1,40 @@
-import React, { useState } from 'react';
-import {
-    Plus,
-    Edit,
-    Trash2,
-    Search
-} from 'lucide-react';
-import AddProductModal from './AddProductModal';
+import {useEffect, useState} from "react";
+import {retrieveVendorProducts} from "@/userprofile/vendor/vendorService";
+import {Product} from "@/product/productService";
+import {AuthenticationResponse} from "@/authentication/authenticationService";
+import {Edit, Plus, Search, Trash2} from "lucide-react";
+import AddProductModal from "@/userprofile/vendor/components/AddProductModal";
+import {AppPageResponse, sierraLeoneCurrencySymbol} from "@/utils/apputils";
 
-
-
-interface Product {
-    id: number;
-    name: string;
-    category: string;
-    price: number;
-    stock: number;
-    status: 'Active' | 'Out of Stock' | 'Discontinued';
+interface VendorProductManagementProps {
+    userData: AuthenticationResponse;
 }
 
-const VendorProductManagement: React.FC = () => {
-    const [products, setProducts] = useState<Product[]>([
-        {
-            id: 1,
-            name: "Organic Green Tea",
-            category: "Beverages",
-            price: 12.99,
-            stock: 50,
-            status: "Active"
-        },
-        {
-            id: 2,
-            name: "Artisan Honey",
-            category: "Food",
-            price: 9.50,
-            stock: 0,
-            status: "Out of Stock"
-        },
-        {
-            id: 3,
-            name: "Lavender Essential Oil",
-            category: "Wellness",
-            price: 15.75,
-            stock: 25,
-            status: "Active"
-        }
-    ]);
+const VendorProductManagement: React.FC<VendorProductManagementProps> = ({ userData }) => {
+    const [products, setProducts] = useState<Product[]>([]);
 
     const [filter, setFilter] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            let productResponse: AppPageResponse<Product | null> = await retrieveVendorProducts(userData.user.id, userData.accessToken, userData.user.bioData.roles);
+            if (productResponse != null) {
+                setProducts(productResponse.data);
+            }
+            console.log("Userdata: ", productResponse.data);
+        };
+
+        fetchProducts();
+    }, [userData]);
+
+    const getProductStatus = (quantity: number): string => {
+        return quantity > 0 ? 'Active' : 'Out of Stock';
+    };
+
     const filteredProducts = products.filter(product =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (filter === '' || product.status === filter)
+        (filter === '' || getProductStatus(product.quantity) === filter)
     );
 
     const getStatusColor = (status: string) => {
@@ -65,11 +48,10 @@ const VendorProductManagement: React.FC = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddProduct = (productData) => {
-    // Logic to add product to your system
-    console.log(productData);
-  };
-
+    const handleAddProduct = (productData: Product) => {
+        // Logic to add product to your system
+        console.log(productData);
+    };
 
     return (
         <div className="space-y-6">
@@ -134,11 +116,11 @@ const VendorProductManagement: React.FC = () => {
                             className="  border-gray-600 border-b-[.5px] hover:bg-gray-600 transition-colors"
                         >
                             <td className="p-4">{product.name}</td>
-                            <td className="p-4">{product.category}</td>
-                            <td className="p-4">${product.price.toFixed(2)}</td>
-                            <td className="p-4">{product.stock}</td>
-                            <td className={`p-4 ${getStatusColor(product.status)}`}>
-                                {product.status}
+                            <td className="p-4">{product.category.name}</td>
+                            <td className="p-4">{sierraLeoneCurrencySymbol()+' '+ product.price.toFixed(2)}</td>
+                            <td className="p-4">{product.quantity}</td>
+                            <td className={`p-4 ${getStatusColor(getProductStatus(product.quantity))}`}>
+                                {getProductStatus(product.quantity)}
                             </td>
                             <td className="p-4 flex justify-center space-x-2">
                                 <button
@@ -160,10 +142,10 @@ const VendorProductManagement: React.FC = () => {
                 </table>
             </div>
 
-            <AddProductModal 
-             isOpen={isModalOpen} 
-             onClose={() => setIsModalOpen(false)}
-             onAddProduct={handleAddProduct}
+            <AddProductModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onAddProduct={handleAddProduct}
             />
         </div>
     );
