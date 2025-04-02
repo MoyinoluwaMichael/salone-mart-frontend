@@ -2,8 +2,8 @@ import React, {useEffect, useState, useRef} from 'react';
 import { Edit, Camera, ShoppingBag, Heart, MapPin, CreditCard, Bell, Shield, ChevronRight, BackpackIcon } from 'lucide-react';
 import {useNavigate} from "react-router-dom";
 import {AuthenticationResponse, BioData} from "@/authentication/authenticationService";
-import {FileMetaData, uploadMedia} from "@/userprofile/userProfileService";
 import Alert from '@/common/Alert';
+import {handleFileChange} from "@/userprofile/userProfileService";
 
 const ProfileOverview = ({ userData, setIsEditing }: { userData: AuthenticationResponse, setIsEditing: any }) => {
 
@@ -13,6 +13,10 @@ const ProfileOverview = ({ userData, setIsEditing }: { userData: AuthenticationR
     const [alert, setAlert] = useState<{type: 'error' | 'success' | 'info' | 'warning', message: string} | null>(null);
 
     const navigate = useNavigate();
+
+    const handleProfilePictureClick = () => {
+        fileInputRef.current?.click();
+    };
 
     useEffect(() => {
         if (userData) {
@@ -24,74 +28,6 @@ const ProfileOverview = ({ userData, setIsEditing }: { userData: AuthenticationR
         }
     }, [navigate]);
 
-    const handleProfilePictureClick = () => {
-        fileInputRef.current?.click();
-    };
-
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        // Validate file type
-        const validFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-        if (!validFileTypes.includes(file.type)) {
-            setAlert({
-                type: 'error',
-                message: 'Please upload a valid image file (JPEG, PNG, GIF, WEBP)'
-            });
-            return;
-        }
-
-        // Validate file size (max 5MB)
-        const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-        if (file.size > maxSize) {
-            setAlert({
-                type: 'error',
-                message: 'File size exceeds 5MB. Please upload a smaller image.'
-            });
-            return;
-        }
-
-        try {
-            setIsUploading(true);
-            setAlert(null);
-
-            const files: File[] = [file];
-            let metaData: FileMetaData = {
-                id: file.name,
-                documentTypeId: 1,
-                mediaCategory: 'USER'
-            };
-            const fileMetaData: FileMetaData[] = [metaData];
-            const response = await uploadMedia(files, fileMetaData, null, userData);
-
-            if (response && response.profilePicture) {
-                setBioData(prev => {
-                    if (!prev) return null;
-                    return {...prev, profilePicture: response.profilePicture};
-                });
-
-                setAlert({
-                    type: 'success',
-                    message: 'Profile picture updated successfully!'
-                });
-            }
-        } catch (error: any) {
-            console.error('Error uploading profile picture:', error);
-            setAlert({
-                type: 'error',
-                message: 'Failed to upload profile picture. Please try again.'
-            });
-            if (error.response.status === 401 || error.response.status === 403) {
-                navigate('/auth');
-            }
-        } finally {
-            setIsUploading(false);
-            if (fileInputRef.current) {
-                fileInputRef.current.value = '';
-            }
-        }
-    };
 
     return (
         <div className="animate-fadeIn">
@@ -130,7 +66,15 @@ const ProfileOverview = ({ userData, setIsEditing }: { userData: AuthenticationR
                         <input
                             type="file"
                             ref={fileInputRef}
-                            onChange={handleFileChange}
+                            onChange={(e) => handleFileChange(
+                                e,
+                                fileInputRef,
+                                setAlert,
+                                setIsUploading,
+                                setBioData,
+                                userData,
+                                navigate
+                            )}
                             className="hidden"
                             accept="image/*"
                         />

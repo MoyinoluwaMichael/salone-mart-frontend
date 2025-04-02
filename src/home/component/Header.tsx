@@ -17,23 +17,33 @@ import {
   CATEGORIES_DATA_TYPE,
   CATEGORY_DETAILS, fetchCategoryDetails
 } from "@/product/productService";
-import {retrieveFromStorage, CUSTOMER_DATA, AuthenticationResponse, BioData} from "@/authentication/authenticationService";
+import {AUTHENTICATION_RESPONSE_DATA, AuthenticationResponse, BioData} from "@/authentication/authenticationService";
+import {removeFromStorage, retrieveFromStorage} from "@/utils/storageservice";
+import {Roles} from "@/utils/routes";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
-  const [userData, setUserData] = useState<AuthenticationResponse | null>(null);
+  const [authenticationResponse, setAuthenticationResponse] = useState<AuthenticationResponse | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
-  const categories: string[] = Object.values(CATEGORIES_DATA_TYPE);
+  const categories: CATEGORIES_DATA_TYPE[] = Object.values(CATEGORIES_DATA_TYPE);
 
   useEffect(() => {
-    const customerData: AuthenticationResponse = retrieveFromStorage(CUSTOMER_DATA) as AuthenticationResponse;
+    const customerData: AuthenticationResponse = retrieveFromStorage(AUTHENTICATION_RESPONSE_DATA) as AuthenticationResponse;
     if (customerData) {
-      setUserData(customerData);
+      setAuthenticationResponse(customerData);
+      let userRoles: string[] = customerData.user.bioData.roles;
+      if (Roles.CUSTOMER !== userRoles[0]) {
+        if ([Roles.SUPER_ADMIN, Roles.ORDINARY_ADMIN].includes(userRoles[0])) {
+          navigate("/admin-profile");
+        }else if(Roles.VENDOR === userRoles[0]){
+          navigate("/vendor-profile");
+        }
+      }
     }
   }, []);
 
@@ -61,8 +71,15 @@ const Header = () => {
   // Handle account navigation based on login status
   const handleAccountNavigation = (e: any) => {
     e.preventDefault();
-    if (userData) {
-      navigate('/user-profile'); // Navigate to profile if logged in
+    if (authenticationResponse) {
+      let userRoles = authenticationResponse?.user?.bioData?.roles;
+      if (userRoles.length > 0) {
+        if (Roles.CUSTOMER === userRoles[0]) {
+          navigate("/profile");
+        } else if ([Roles.SUPER_ADMIN, Roles.ORDINARY_ADMIN].includes(userRoles[0])) {
+          navigate("/admin-profile");
+        }
+      }
     } else {
       navigate('/auth'); // Navigate to auth/login if not logged in
     }
@@ -147,7 +164,7 @@ const Header = () => {
             <div className="flex items-center space-x-3 md:space-x-6">
               {/* Account with user logged in indicator */}
               <a href="#" onClick={handleAccountNavigation} className="flex flex-col items-center text-gray-700 hover:text-blue-600 transition-colors relative group">
-                {userData ? (
+                {authenticationResponse ? (
                     <>
                       <div className="relative">
                         <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
@@ -155,7 +172,7 @@ const Header = () => {
                         </div>
                         <User size={24} className="group-hover:scale-110 transition-transform duration-300" />
                       </div>
-                      <span className="text-xs mt-1 hidden md:block group-hover:text-blue-600">Hi, {userData?.user?.bioData?.firstName}</span>
+                      <span className="text-xs mt-1 hidden md:block group-hover:text-blue-600">Hi, {authenticationResponse?.user?.bioData?.firstName}</span>
                     </>
                 ) : (
                     <>
@@ -276,7 +293,7 @@ const Header = () => {
                   className="bg-white w-4/5 h-full shadow-lg py-2 px-4 animate-slideRight overflow-y-auto"
               >
                 <div className="flex items-center justify-between mb-4 border-b border-gray-200 pb-2">
-                  {userData ? (
+                  {authenticationResponse ? (
                       <div className="flex items-center text-blue-700">
                         <div className="relative">
                           <div className="absolute -top-1 -right-1 bg-green-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
@@ -284,7 +301,7 @@ const Header = () => {
                           </div>
                           <User size={18} className="mr-2" />
                         </div>
-                        <span className="font-medium">Hi, {userData?.user?.bioData?.firstName}</span>
+                        <span className="font-medium">Hi, {authenticationResponse?.user?.bioData?.firstName}</span>
                       </div>
                   ) : (
                       <span className="text-lg font-medium">Categories</span>
@@ -298,7 +315,7 @@ const Header = () => {
                 </div>
 
                 <div className="space-y-1">
-                  {userData && (
+                  {authenticationResponse && (
                       <div className="border-b border-gray-100 pb-2 mb-2">
                         <a
                             href="#"
@@ -314,7 +331,7 @@ const Header = () => {
                       </div>
                   )}
 
-                  {categories.map((category: string, index) => (
+                  {categories.map((category: CATEGORIES_DATA_TYPE, index) => (
                       <div key={index} className="border-b border-gray-100 last:border-0">
                         <button
                             onClick={() => setActiveCategoryId(activeCategoryId === fetchCategoryDetails(category).id ? null : fetchCategoryDetails(category).id)}
@@ -345,7 +362,7 @@ const Header = () => {
                 </div>
 
                 <div className="mt-6 border-t border-gray-200 pt-4">
-                  {!userData && (
+                  {!authenticationResponse && (
                       <a
                           href="#"
                           className="block py-2 text-blue-600 hover:text-blue-700 transition-colors font-medium"

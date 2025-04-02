@@ -1,5 +1,6 @@
 import axiosInstance from '../utils/axiosInstance';
 import {AxiosResponse} from "axios";
+import {saveToStorage} from "@/utils/storageservice";
 
 export const registerACustomer = async (customerData: {
     password: string;
@@ -20,20 +21,7 @@ export const registerACustomer = async (customerData: {
     }
 };
 
-export const saveToStorage = (key: string, data: object): void => {
-    sessionStorage.setItem(key, JSON.stringify(data));
-};
-
-export const retrieveFromStorage = (key: string): object | null => {
-    const item = sessionStorage.getItem(key);
-    return item ? JSON.parse(item) : null;
-};
-
-export const removeFromStorage = (key: string): void => {
-    sessionStorage.removeItem(key);
-};
-
-export const CUSTOMER_DATA = 'customerData';
+export const AUTHENTICATION_RESPONSE_DATA = 'authentionResponseData';
 
 
 export interface DocumentType {
@@ -83,7 +71,6 @@ export const getProfilePicture = (bioData: BioData): string | undefined => {
     return profileMedia ? profileMedia.secureUrl : undefined;
 };
 
-
 export function retrieveAuthenticationResponse(data: User, token: string) {
     const user = data;
     const bioData = user?.bioData;
@@ -104,7 +91,7 @@ export function retrieveAuthenticationResponse(data: User, token: string) {
             }
         }
     };
-    saveToStorage(CUSTOMER_DATA, authResponse);
+    saveToStorage(AUTHENTICATION_RESPONSE_DATA, authResponse);
     return authResponse;
 }
 
@@ -118,7 +105,6 @@ export const login = async (customerData: {
         console.log("Logged in customer: ", response.data);
         if (response.status === 200 && response.data) {
             const data = response?.data;
-
             return retrieveAuthenticationResponse(data.user, data?.accessToken);
         }
     } catch (error) {
@@ -127,4 +113,3 @@ export const login = async (customerData: {
     }
     return null;
 };
-
