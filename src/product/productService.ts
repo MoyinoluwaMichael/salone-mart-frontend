@@ -140,6 +140,7 @@ export interface Product {
     image: string;
     interest: ProductInterest;
     isNew: boolean;
+    createdAt: string;
 }
 
 export const searchProducts = async (size: number): Promise<AppPageResponse<Product>> => {

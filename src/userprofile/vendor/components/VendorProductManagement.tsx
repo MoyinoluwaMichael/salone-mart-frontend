@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
-import {retrieveVendorProducts} from "@/userprofile/vendor/vendorService";
-import {Product} from "@/product/productService";
-import {AuthenticationResponse} from "@/authentication/authenticationService";
-import {Edit, Plus, Search, Trash2} from "lucide-react";
+import { useEffect, useState } from "react";
+import { retrieveVendorProducts } from "@/userprofile/vendor/vendorService";
+import { Product } from "@/product/productService";
+import { AuthenticationResponse } from "@/authentication/authenticationService";
+import { Edit, Plus, Search, Trash2 } from "lucide-react";
 import AddProductModal from "@/userprofile/vendor/components/AddProductModal";
-import {AppPageResponse, sierraLeoneCurrencySymbol} from "@/utils/apputils";
+import { AppPageResponse, formatDate, sierraLeoneCurrencySymbol } from "@/utils/apputils";
 
 interface VendorProductManagementProps {
     userData: AuthenticationResponse;
@@ -12,21 +12,30 @@ interface VendorProductManagementProps {
 
 const VendorProductManagement: React.FC<VendorProductManagementProps> = ({ userData }) => {
     const [products, setProducts] = useState<Product[]>([]);
+    const [pageNumber, setPageNumber] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
+    const [totalFilteredItems, setTotalFilteredItems] = useState(0);
+    const [rowSize, setRowSize] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [filter, setFilter] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            let productResponse: AppPageResponse<Product | null> = await retrieveVendorProducts(userData.user.id, userData.accessToken, userData.user.bioData.roles);
+        const fetchProducts = async (page: number, size: number) => {
+            setIsLoading(true);
+            let productResponse: AppPageResponse<Product> | null = await retrieveVendorProducts(userData.user.id, userData.accessToken, userData.user.bioData.roles, pageSize, pageNumber);
             if (productResponse != null) {
                 setProducts(productResponse.data);
+                setTotalFilteredItems(productResponse.totalFilteredItems);
+                setRowSize(productResponse.rowSize);
             }
+            setIsLoading(false);
             console.log("Userdata: ", productResponse.data);
         };
 
-        fetchProducts();
-    }, [userData]);
+        fetchProducts(pageNumber, pageSize);
+    }, [userData, pageNumber, pageSize]);
 
     const getProductStatus = (quantity: number): string => {
         return quantity > 0 ? 'Active' : 'Out of Stock';
@@ -51,6 +60,10 @@ const VendorProductManagement: React.FC<VendorProductManagementProps> = ({ userD
     const handleAddProduct = (productData: Product) => {
         // Logic to add product to your system
         console.log(productData);
+    };
+
+    const handlePageChange = (newPage: number) => {
+        setPageNumber(newPage);
     };
 
     return (
@@ -96,51 +109,68 @@ const VendorProductManagement: React.FC<VendorProductManagementProps> = ({ userD
                 </select>
             </div>
 
-            {/* Product Table */}
-            <div className="bg-gray-700 rounded-lg overflow-hidden">
-                <table className="w-full">
-                    <thead className="bg-gradient-to-r from-blue-800 to-purple-800 text-emerald-200">
-                    <tr>
-                        <th className="p-4 text-left">Product Name</th>
-                        <th className="p-4 text-left">Category</th>
-                        <th className="p-4 text-left">Price</th>
-                        <th className="p-4 text-left">Stock</th>
-                        <th className="p-4 text-left">Status</th>
-                        <th className="p-4 text-center">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {filteredProducts.map(product => (
-                        <tr
-                            key={product.id}
-                            className="  border-gray-600 border-b-[.5px] hover:bg-gray-600 transition-colors"
+            {/* Loading Screen */}
+            {isLoading ? (
+                <div className="flex justify-center items-center h-64">
+                    <div className="text-white">Loading...</div>
+                </div>
+            ) : (
+                <>
+                    {/* Product Table */}
+                    <div className="bg-gray-700 rounded-lg overflow-hidden">
+                        <table className="w-full">
+                            <thead className="bg-gradient-to-r from-blue-800 to-purple-800 text-emerald-200">
+                            <tr>
+                                <th className="p-4 text-left">Product Name</th>
+                                <th className="p-4 text-left">Category</th>
+                                <th className="p-4 text-left">Price</th>
+                                <th className="p-4 text-left">Stock</th>
+                                <th className="p-4 text-left">Status</th>
+                                <th className="p-4 text-left">Date Created</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {filteredProducts.map(product => (
+                                <tr
+                                    key={product.id}
+                                    className="  border-gray-600 border-b-[.5px] hover:bg-gray-600 transition-colors"
+                                >
+                                    <td className="p-4">{product.name}</td>
+                                    <td className="p-4">{product.category.name}</td>
+                                    <td className="p-4">{sierraLeoneCurrencySymbol()+' '+ product.price.toFixed(2)}</td>
+                                    <td className="p-4">{product.quantity}</td>
+                                    <td className={`p-4 ${getStatusColor(getProductStatus(product.quantity))}`}>
+                                        {getProductStatus(product.quantity)}
+                                    </td>
+                                    <td className="p-4">{formatDate(product.createdAt)}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Pagination Controls */}
+                    <div className="flex justify-between items-center mt-4">
+                        <button
+                            onClick={() => handlePageChange(pageNumber - 1)}
+                            disabled={pageNumber === 0}
+                            className="px-4 py-2 bg-gray-600 text-white rounded-lg"
                         >
-                            <td className="p-4">{product.name}</td>
-                            <td className="p-4">{product.category.name}</td>
-                            <td className="p-4">{sierraLeoneCurrencySymbol()+' '+ product.price.toFixed(2)}</td>
-                            <td className="p-4">{product.quantity}</td>
-                            <td className={`p-4 ${getStatusColor(getProductStatus(product.quantity))}`}>
-                                {getProductStatus(product.quantity)}
-                            </td>
-                            <td className="p-4 flex justify-center space-x-2">
-                                <button
-                                    className="text-emerald-400 hover:text-emerald-300"
-                                    title="Edit Product"
-                                >
-                                    <Edit size={20} />
-                                </button>
-                                <button
-                                    className="text-red-500 hover:text-red-400"
-                                    title="Delete Product"
-                                >
-                                    <Trash2 size={20} />
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
+                            Previous
+                        </button>
+                        <span className="text-white">
+                            Page {pageNumber + 1} of {Math.ceil(rowSize / pageSize)}
+                        </span>
+                        <button
+                            onClick={() => handlePageChange(pageNumber + 1)}
+                            disabled={(pageNumber + 1) * pageSize >= rowSize}
+                            className="px-4 py-2 bg-gray-600 text-white rounded-lg"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </>
+            )}
 
             <AddProductModal
                 isOpen={isModalOpen}
