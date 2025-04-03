@@ -1,45 +1,56 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus } from 'lucide-react';
-
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Plus } from "lucide-react";
 
 interface Product {
-    id: number;
-    name: string;
-    category: string;
-    price: number;
-    stock: number;
-    status: string;
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  brand: number;
+  quantity: number;
+  description: string;
+  interest: number;
 }
 
 // Corrected type guard for the component props
 interface AddProductModalProps {
-    isOpen: boolean;
-    onClose: () => void; // Typically a function that doesn't return anything
-    onAddProduct: (product: Product) => void; // Takes a Product and returns void
+  isOpen: boolean;
+  onClose: () => void; // Typically a function that doesn't return anything
+  // onAddProduct: (product: Product) => void;
+  onAddProduct: () => void;
 }
 
-const AddProductModal = ({ isOpen, onClose, onAddProduct }: AddProductModalProps) => {
+const AddProductModal = ({
+  isOpen,
+  onClose,
+}: AddProductModalProps) => {
   const [productData, setProductData] = useState<Product>({
-    name: '',
-    category: '',
+    name: "",
+    category: "",
     price: 0,
-    stock: 0,
-    status: 'Active',
+    brand: 0,
+    quantity: 0,
     id: 0,
+    description: '',
+    interest: 0,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setProductData(prev => ({
+    setProductData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onAddProduct(productData);
+    onAddProduct();
     onClose();
   };
 
@@ -51,10 +62,11 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct }: AddProductModalProps
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white rounded-xl shadow-2xl w-11/12 max-w-md p-6 relative"
+            className="bg-white rounded-xl shadow-2xl w-11/12 max-w-md p-6 relative overflow-y-scroll 
+            md:h-[95vh] no-scrollbar my-10 h-[80vh]"
           >
-            <button 
-              onClick={onClose} 
+            <button
+              onClick={onClose}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors"
             >
               <X size={24} />
@@ -64,9 +76,12 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct }: AddProductModalProps
               Add New Product
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 ">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Product Name
                 </label>
                 <input
@@ -76,12 +91,36 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct }: AddProductModalProps
                   value={productData.name}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none
+                   focus:ring-2 focus:ring-purple-500 text-black"
                 />
               </div>
 
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Product Description
+                </label>
+                <textarea
+                  rows={4}
+                  cols={5}
+                  id="description"
+                  name="description"
+                  value={productData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none 
+                  focus:ring-2 focus:ring-purple-500 text-black"
+                ></textarea>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Category
                 </label>
                 <select
@@ -90,18 +129,45 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct }: AddProductModalProps
                   value={productData.category}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none
+                   focus:ring-2 focus:ring-purple-500 text-black"
                 >
-                  <option value="">Select Category</option>
+                  <option value="" className="">Select Category</option>
                   <option value="Beverages">Beverages</option>
                   <option value="Food">Food</option>
                   <option value="Wellness">Wellness</option>
                 </select>
               </div>
 
+              <div>
+                <label
+                  htmlFor="brand"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Brand
+                </label>
+                <select
+                  id="brand"
+                  name="brand"
+                  value={productData.brand}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none
+                   focus:ring-2 focus:ring-purple-500 text-black"
+                >
+                  <option value="" className="">Select Brand</option>
+                  <option value="Nike">Nike</option>
+                  <option value="All stars">All stars</option>
+                  <option value="Air">Air</option>
+                </select>
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="price"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Price
                   </label>
                   <input
@@ -113,40 +179,49 @@ const AddProductModal = ({ isOpen, onClose, onAddProduct }: AddProductModalProps
                     step="0.01"
                     min="0"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none
+                     focus:ring-2 focus:ring-purple-500 text-black"
                   />
                 </div>
                 <div>
-                  <label htmlFor="stock" className="block text-sm font-medium text-gray-700 mb-1">
-                    Stock
+                  <label
+                    htmlFor="quantity"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Quantity
                   </label>
                   <input
                     type="number"
-                    id="stock"
-                    name="stock"
-                    value={productData.stock}
+                    id="quantity"
+                    name="quantity"
+                    value={productData.quantity}
                     onChange={handleInputChange}
                     min="0"
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none
+                     focus:ring-2 focus:ring-purple-500 text-black"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
-                  Status
-                </label>
-                <select
-                  id="status"
-                  name="status"
-                  value={productData.status}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                <label
+                  htmlFor="interest"
+                  className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  <option value="Active">Active</option>
-                  <option value="Out of Stock">Out of Stock</option>
-                </select>
+                  interest
+                </label>
+                <input
+                    type="number"
+                    id="interest"
+                    name="interest"
+                    value={productData.interest}
+                    onChange={handleInputChange}
+                    min="0"
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none
+                     focus:ring-2 focus:ring-purple-500 text-black"
+                  />
               </div>
 
               <div className="flex justify-center mt-6">

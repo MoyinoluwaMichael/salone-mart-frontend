@@ -63,7 +63,7 @@ const VendorBusinessProfile: React.FC = () => {
                                 name="businessName"
                                 value={businessProfile.businessName}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                             />
                         ) : (
                             <p className="text-gray-400 font-semibold">{businessProfile.businessName}</p>
@@ -77,7 +77,7 @@ const VendorBusinessProfile: React.FC = () => {
                                 name="description"
                                 value={businessProfile.description}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg h-24"
+                                className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg h-24"
                             />
                         ) : (
                             <p className="text-gray-400">{businessProfile.description}</p>
@@ -93,7 +93,7 @@ const VendorBusinessProfile: React.FC = () => {
                                     name="foundedYear"
                                     value={businessProfile.foundedYear}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                                 />
                             ) : (
                                 <p className="text-gray-400">{businessProfile.foundedYear}</p>
@@ -107,7 +107,7 @@ const VendorBusinessProfile: React.FC = () => {
                                     name="taxId"
                                     value={businessProfile.taxId}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                                 />
                             ) : (
                                 <p className="text-gray-400">{businessProfile.taxId}</p>
@@ -128,7 +128,7 @@ const VendorBusinessProfile: React.FC = () => {
                                     name="address"
                                     value={businessProfile.address}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                                 />
                             ) : (
                                 <p className="text-gray-400">{businessProfile.address}</p>
@@ -146,7 +146,7 @@ const VendorBusinessProfile: React.FC = () => {
                                     name="phone"
                                     value={businessProfile.phone}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                                 />
                             ) : (
                                 <p className="text-gray-400">{businessProfile.phone}</p>
@@ -164,7 +164,7 @@ const VendorBusinessProfile: React.FC = () => {
                                     name="email"
                                     value={businessProfile.email}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                                 />
                             ) : (
                                 <p className="text-gray-400">{businessProfile.email}</p>
@@ -182,7 +182,7 @@ const VendorBusinessProfile: React.FC = () => {
                                     name="website"
                                     value={businessProfile.website}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                    className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                                 />
                             ) : (
                                 <a

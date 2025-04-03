@@ -57,9 +57,11 @@ const VendorProductManagement: React.FC<VendorProductManagementProps> = ({ userD
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleAddProduct = (productData: Product) => {
+    // const handleAddProduct = (productData: Product) => {
+    const handleAddProduct = () => {
         // Logic to add product to your system
-        console.log(productData);
+        // setIsModalOpen(true)
+        // console.log(productData);
     };
 
     const handlePageChange = (newPage: number) => {
@@ -69,11 +71,12 @@ const VendorProductManagement: React.FC<VendorProductManagementProps> = ({ userD
     return (
         <div className="space-y-6">
             {/* Product Management Header */}
-            <div className="flex justify-between items-center mb-6">
+            <div className="md:flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-white">My Products</h1>
                 <button
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white
-                    px-4 py-2 rounded-lg flex items-center transition-colors"
+                    px-4 py-2 rounded-lg flex items-center transition-colors mt-5 md:mt-0"
+                    onClick={()=> setIsModalOpen(true)}
                 >
                     <Plus className="mr-2" /> Add New Product
                 </button>
@@ -117,7 +120,7 @@ const VendorProductManagement: React.FC<VendorProductManagementProps> = ({ userD
             ) : (
                 <>
                     {/* Product Table */}
-                    <div className="bg-gray-700 rounded-lg overflow-hidden">
+                    <div className="bg-gray-700 rounded-lg overflow-y-hidden overflow-x-scroll no-scrollbar">
                         <table className="w-full">
                             <thead className="bg-gradient-to-r from-blue-800 to-purple-800 text-emerald-200">
                             <tr>

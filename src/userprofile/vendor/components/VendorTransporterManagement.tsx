@@ -94,7 +94,7 @@ const VendorTransporterManagement: React.FC = () => {
             {/* Add Transporter Modal */}
             {isAddingTransporter && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-emerald-800 p-6 rounded-lg w-full max-w-md">
+                    <div className="bg-gray-900 p-6 rounded-lg w-full max-w-md border-1 border-gray-700">
                         <h2 className="text-xl font-semibold text-white mb-4">Add New Transporter</h2>
                         <div className="space-y-4">
                             <input
@@ -103,7 +103,7 @@ const VendorTransporterManagement: React.FC = () => {
                                 placeholder="Transporter Name"
                                 value={newTransporter.name}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                             />
                             <input
                                 type="text"
@@ -111,7 +111,7 @@ const VendorTransporterManagement: React.FC = () => {
                                 placeholder="Company Name"
                                 value={newTransporter.company}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                             />
                             <input
                                 type="email"
@@ -119,7 +119,7 @@ const VendorTransporterManagement: React.FC = () => {
                                 placeholder="Email Address"
                                 value={newTransporter.email}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                             />
                             <input
                                 type="tel"
@@ -127,7 +127,7 @@ const VendorTransporterManagement: React.FC = () => {
                                 placeholder="Phone Number"
                                 value={newTransporter.phone}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 bg-emerald-700 text-white rounded-lg"
+                                className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg"
                             />
                             <div className="flex justify-end space-x-4">
                                 <button
@@ -138,7 +138,7 @@ const VendorTransporterManagement: React.FC = () => {
                                 </button>
                                 <button
                                     onClick={handleAddTransporter}
-                                    className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg"
+                                    className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg"
                                 >
                                     Add Transporter
                                 </button>

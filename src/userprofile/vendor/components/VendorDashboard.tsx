@@ -142,13 +142,13 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
     <div className="space-y- text-white">
       {/* Profile Overview */}
       <div
-        className="rounded-lg p-6 flex items-center justify-between bg-gray-800 shadow-md shadow-gray-900"
+        className="rounded-lg p-6 md:flex items-center justify-between bg-gray-800 shadow-md shadow-gray-900"
         style={{
           //   backgroundColor: sierraLeoneColors.darkBlue,
           color: sierraLeoneColors.white,
         }}
       >
-        <div className="flex items-center space-x-4 ">
+        <div className="md:flex items-center space-x-4 mt-2 mb-5">
           <div className="relative group">
             <div
               className="h-24 w-24 rounded-full flex items-center justify-center text-white text-3xl font-bold overflow-hidden"

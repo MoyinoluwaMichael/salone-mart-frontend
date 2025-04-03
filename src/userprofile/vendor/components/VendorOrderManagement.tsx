@@ -79,12 +79,12 @@ const VendorOrderManagement: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Order Management Header */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="md:flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-white">Order Management</h1>
         <div className="flex space-x-4">
           <button
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white
-                        px-4 py-2 rounded-lg flex items-center transition-colors"
+                        px-4 py-2 rounded-lg flex items-center transition-colors mt-5 md:mt-0"
           >
             Export Orders
           </button>
@@ -121,7 +121,7 @@ const VendorOrderManagement: React.FC = () => {
       </div>
 
       {/* Orders Table */}
-      <div className="bg-gray-700 rounded-lg overflow-hidden shadow-md">
+      <div className="bg-gray-700 rounded-lg overflow-y-hidden overflow-x-scroll no-scrollbar shadow-md">
         <table className="w-full">
           <thead className="bg-gradient-to-r from-blue-800 to-purple-800 text-emerald-200">
             <tr>
