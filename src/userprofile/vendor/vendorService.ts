@@ -1,13 +1,14 @@
 import {mapRoleToEndpoint} from "@/userprofile/customer/customerProfileService";
-import {User} from "@/authentication/authenticationService";
 import {AxiosResponse} from "axios";
 import axiosInstance from "@/utils/axiosInstance";
 import {Product} from "@/product/productService";
 import {AppPageResponse} from "@/utils/apputils";
+import {useNavigate} from "react-router-dom";
 
 export const retrieveVendorProducts = async (
     vendorId: number, accessToken: string, roles: string[], pageSize: number, pageNumber: number
 ): Promise<AppPageResponse<Product> | null> => {
+    let navigate = useNavigate();
     try {
         let role = roles[0];
         let url: string = `${mapRoleToEndpoint(role)}/${vendorId}/products?page=${pageNumber}&size=${pageSize}`;
@@ -35,6 +36,7 @@ export const retrieveVendorProducts = async (
             } else if (error.response.status === 415) {
                 throw new Error('Unsupported media type. Please use a supported file format.');
             } else if (error.response.status === 401) {
+                navigate("/login")
                 throw new Error('Unauthorized access. Please log in again.');
             } else if (error.response.data && error.response.data.message) {
                 throw new Error(error.response.data.message);
